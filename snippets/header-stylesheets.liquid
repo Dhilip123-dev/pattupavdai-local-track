@@ -87,72 +87,72 @@
 {%- endstyle -%}
 
 {%- assign type_name = request.page_type -%}
-<link rel="preconnect" href=" {{ 'style.line-awesome.min.css' | asset_url}}" crossorigin>
-{{ 'style.line-awesome.min.css' | asset_url | stylesheet_tag}} 
-<link rel="preconnect" href=" {{ 'style.font-awesome.min.css' | asset_url}}" crossorigin>
-{{ 'style.font-awesome.min.css' | asset_url | stylesheet_tag}}
-<link rel="preconnect" href=" {{ 'style.fotorama.min.css' | asset_url}}" crossorigin>
-{{ 'style.fotorama.min.css' | asset_url | stylesheet_tag}} 
-<link rel="preconnect" href=" {{ 'style.magnific-popup.min.css' | asset_url}}" crossorigin>
-{{ 'style.magnific-popup.min.css' | asset_url | stylesheet_tag}} 
-<link rel="preconnect" href=" {{ 'style.pre_theme.css' | asset_url}}" crossorigin>
-{{ 'style.pre_theme.css' | asset_url | stylesheet_tag}} 
-<link rel="preconnect" href=" {{ 'dukamarket.css' | asset_url}}" crossorigin>
-{{ 'dukamarket.css' | asset_url | stylesheet_tag}}
-<link rel="preconnect" href=" {{ 'style.slick.min.css' | asset_url}}" crossorigin>
-{{ 'style.slick.min.css' | asset_url | stylesheet_tag}}
-<link rel="preconnect" href=" {{ 'animate.css' | asset_url}}" crossorigin>
-{{ 'animate.css' | asset_url | stylesheet_tag}}
-<link rel="preconnect" href=" {{ 'header.css' | asset_url}}" crossorigin>
-{{ 'header.css' | asset_url | stylesheet_tag}}
-{% assign import_footer= settings.select_footer | plus: 0%}
-{% capture styleFooter %}footer{{import_footer}}.css{% endcapture %}
-<link rel="preconnect" href=" {{ styleFooter | asset_url}}" crossorigin>
-{{ styleFooter | asset_url | stylesheet_tag}}
 
-<link rel="preconnect" href=" {{ 'global.css' | asset_url}}" crossorigin>
-{{'global.css' | asset_url | stylesheet_tag}}
+{%- comment -%} Critical CSS (Rendered synchronously for instant layout & no layout shift) {%- endcomment -%}
+{{ 'style.pre_theme.css' | asset_url | stylesheet_tag }}
+{{ 'dukamarket.css' | asset_url | stylesheet_tag }}
+{{ 'header.css' | asset_url | stylesheet_tag }}
+{% assign import_footer = settings.select_footer | plus: 0 %}
+{% capture styleFooter %}footer{{ import_footer }}.css{% endcapture %}
+{{ styleFooter | asset_url | stylesheet_tag }}
+{{ 'global.css' | asset_url | stylesheet_tag }}
+{{ 'product.css' | asset_url | stylesheet_tag }}
 
-<link rel="preconnect" href=" {{ 'skeleton.css' | asset_url}}" crossorigin>
-{{'skeleton.css' | asset_url | stylesheet_tag}}
+{%- comment -%} Non-Critical CSS (Loaded asynchronously to prevent render-blocking) {%- endcomment -%}
+<link rel="stylesheet" href="{{ 'style.line-awesome.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'style.line-awesome.min.css' | asset_url }}"></noscript>
+
+<link rel="stylesheet" href="{{ 'style.font-awesome.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'style.font-awesome.min.css' | asset_url }}"></noscript>
+
+<link rel="stylesheet" href="{{ 'style.slick.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'style.slick.min.css' | asset_url }}"></noscript>
+
+<link rel="stylesheet" href="{{ 'animate.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'animate.css' | asset_url }}"></noscript>
+
+<link rel="stylesheet" href="{{ 'style.fotorama.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'style.fotorama.min.css' | asset_url }}"></noscript>
+
+<link rel="stylesheet" href="{{ 'style.magnific-popup.min.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'style.magnific-popup.min.css' | asset_url }}"></noscript>
+
+<link rel="stylesheet" href="{{ 'skeleton.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'skeleton.css' | asset_url }}"></noscript>
+
+{%- comment -%} Page-specific Conditional CSS (Only loaded when that page is visited) {%- endcomment -%}
+{% if type_name == 'product' %}
+  {{ 'product_page.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% if type_name == 'blog' or type_name == 'article' %}
+  {{ 'blog.css' | asset_url | stylesheet_tag }}
+{% endif %}
 
 {% if type_name == 'cart' %}
-  <link rel="preconnect" href=" {{ 'page-cart.css' | asset_url}}" crossorigin>
-  {{'page-cart.css' | asset_url | stylesheet_tag}}
+  {{ 'page-cart.css' | asset_url | stylesheet_tag }}
 {% endif %}
+
 {% if type_name == '404' %}
-  <link rel="preconnect" href=" {{ '404.css' | asset_url}}" crossorigin>
-  {{'404.css' | asset_url | stylesheet_tag}}
+  {{ '404.css' | asset_url | stylesheet_tag }}
 {% endif %}
 
-{% if type_name =='page' %}
-  <link rel="preconnect" href=" {{ 'pages.css' | asset_url}}" crossorigin>
-  {{'pages.css' | asset_url | stylesheet_tag}} 
-{% endif %} 
-
-<link rel="preconnect" href=" {{ 'vertical_menu.css' | asset_url}}" crossorigin>
-{{'vertical_menu.css' | asset_url | stylesheet_tag}}
-
-<link rel="preconnect" href=" {{ 'product.css' | asset_url}}" crossorigin>
-{{'product.css' | asset_url | stylesheet_tag}}
-
-<link rel="preconnect" href=" {{ 'product_page.css' | asset_url}}" crossorigin>
-{{'product_page.css' | asset_url | stylesheet_tag }}
-
-<link rel="preconnect" href=" {{ 'blog.css' | asset_url}}" crossorigin>
-{{'blog.css' | asset_url | stylesheet_tag}} 
-
-
-
-{% if rtlClasses =='rtl' %}
-<link rel="preconnect" href=" {{ 'rtl.css' | asset_url}}" crossorigin>
-{{ 'rtl.css' | asset_url | stylesheet_tag}} 
+{% if type_name == 'page' %}
+  {{ 'pages.css' | asset_url | stylesheet_tag }}
 {% endif %}
+
+{% if settings.use_vertical_menu %}
+  {{ 'vertical_menu.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+{% if rtlClasses == 'rtl' %}
+  {{ 'rtl.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
 {% if settings.use_custom_variants %}
-  <link rel="preconnect" href=" {{ 'custom-color-variants.css' | asset_url}}" crossorigin>
-  {{'custom-color-variants.css' | asset_url | stylesheet_tag}}
+  {{ 'custom-color-variants.css' | asset_url | stylesheet_tag }}
 {% endif %}
+
 {% if settings.custom_css %}
-<link rel="preconnect" href=" {{ 'custom.css' | asset_url}}" crossorigin>
-{{'custom.css' | asset_url | stylesheet_tag}}
+  {{ 'custom.css' | asset_url | stylesheet_tag }}
 {% endif %}
