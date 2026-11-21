@@ -3083,5 +3083,52 @@ select.product-options__section {
     visibility: visible !important;
 }
 
+/* Quick Edit / Option For You Modal Button & Spinner Styling */
+.single_add_to_cart_button {
+  background-color: var(--color-btn, #730449);
+  border: none;
+  color: var(--color-btn-text, #ffffff);
+  position: relative;
+  padding: 0 15px;
+  outline: 0;
+  cursor: pointer;
+  min-width: 250px;
+  text-transform: uppercase;
+  border-radius: var(--alo-border-radius, 5px);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 50px;
+  display: inline-block;
+  text-align: center;
+}
+.single_add_to_cart_button:hover {
+  background-color: var(--color-btn-hover, #222222);
+  color: var(--color-btn-text_hover, #ffffff);
+}
+.single_add_to_cart_button .laber-loading {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  font-size: 16px;
+  right: 0;
+  margin: auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+.single_add_to_cart_button.ajax_loading .laber-loading {
+  opacity: 1;
+}
+.single_add_to_cart_button.ajax_loading .txt_add_to_cart {
+  opacity: 0.2;
+}
+.single_add_to_cart_button[data-button-status="sold-out"] .txt_out_stock {
+  display: block !important;
+  cursor: no-drop;
+}
+.single_add_to_cart_button[data-button-status="sold-out"] .txt_add_to_cart {
+  display: none;
+}
+
 
 

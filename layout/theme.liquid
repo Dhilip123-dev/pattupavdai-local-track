@@ -12,8 +12,7 @@
   {%- if canonical_url != blank  -%}
   <link rel="canonical" href="{{ canonical_url }}">
   {%- endif -%}
-  <link rel="preconnect" href="//cdn.shopify.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   {% capture seo_title %}
     {{ page_title }}
     {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}

@@ -232,9 +232,9 @@ body.skeleton-page{overflow:visible;}
   flex-shrink: 0;
 }
 .js_carousel .product-item.animate--slide-in {
-    animation: var(--animation-slide-in);
-    animation-delay: calc(var(--animation-order) * 40ms);
-    will-change: transform, opacity;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
 }
 @media (min-width: 1921px){
 .js_carousel[data-visible="8"] .post-item,

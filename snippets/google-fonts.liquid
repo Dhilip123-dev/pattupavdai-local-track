@@ -1,13 +1,10 @@
 {%- capture google-font -%}
-{%- assign bd_font_name = settings.bd_google_font | default: 'Jost' -%}
-{%- assign bd_google_font = bd_font_name | replace: " ", "+" -%}
+{%- assign bd_font_name = settings.bd_google_font | default: 'Plus Jakarta Sans' -%}
   {%- assign bd_font_size = settings.bd_font_size -%}
 {%- assign bd_font_weight = settings.bd_font_weight -%}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family={{bd_google_font}}:wght@400;500;600;700&display=swap">
-<link href="https://fonts.googleapis.com/css2?family={{bd_google_font}}:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family={{bd_google_font}}:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 {%- assign h1_font_weight = settings.h1_font_weight -%}
 {%- assign h2_font_weight = settings.h2_font_weight -%}
 {%- assign h3_font_weight = settings.h3_font_weight -%}

@@ -9,7 +9,7 @@
            alt="{{ settings.logo.alt | default: shop.name }}"
             height="{{ logo_height }}"
             width="{{ settings.logo_max_width }}"
-           style="max-width: {{ settings.logo_max_width }}px; width:auto; height:auto;">
+           style="max-width: {{ settings.logo_max_width }}px; width: 100%; height: auto; aspect-ratio: {{ settings.logo.aspect_ratio | default: '4.8' }};">
     </a>
     {% else %}
     <a class="site-title" href="{{ routes.root_url }}" itemprop="url"><span class="logo-default">{{ settings.logo_text  }}</span></a>
@@ -25,7 +25,7 @@
          alt="{{ settings.logo.alt | default: shop.name }}"
           height="{{ logo_height }}"
           width="{{ settings.logo_max_width }}"
-         style="max-width: {{ settings.logo_max_width }}px; width:auto; height:auto;">
+         style="max-width: {{ settings.logo_max_width }}px; width: 100%; height: auto; aspect-ratio: {{ settings.logo.aspect_ratio | default: '4.8' }};">
   </a>
 
   {% elsif settings.logo != blank %}
@@ -37,7 +37,7 @@
          alt="{{ settings.logo.alt | default: shop.name }}"
         height="{{ logo_height }}"
         width="{{ settings.logo_max_width }}" 
-         style="max-width: {{ settings.logo_max_width }}px; width:auto; height:auto;">
+         style="max-width: {{ settings.logo_max_width }}px; width: 100%; height: auto; aspect-ratio: {{ settings.logo.aspect_ratio | default: '4.8' }};">
   </a>
   {% else %}
   <a class="site-title" href="{{ routes.root_url }}" itemprop="url"><span class="logo-default">{{ settings.logo_text  }}</span></a>

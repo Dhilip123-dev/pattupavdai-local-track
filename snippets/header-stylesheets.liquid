@@ -95,16 +95,14 @@
 {{ 'header.css' | asset_url | stylesheet_tag }}
 {% assign import_footer = settings.select_footer | plus: 0 %}
 {% capture styleFooter %}footer{{ import_footer }}.css{% endcapture %}
-{{ styleFooter | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ styleFooter | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ styleFooter | asset_url }}"></noscript>
 {{ 'global.css' | asset_url | stylesheet_tag }}
 {{ 'product.css' | asset_url | stylesheet_tag }}
 
 {%- comment -%} Non-Critical CSS (Loaded asynchronously to prevent render-blocking) {%- endcomment -%}
-<link rel="stylesheet" href="{{ 'style.line-awesome.min.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="{{ 'style.line-awesome.min.css' | asset_url }}"></noscript>
-
-<link rel="stylesheet" href="{{ 'style.font-awesome.min.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="{{ 'style.font-awesome.min.css' | asset_url }}"></noscript>
+{{ 'style.line-awesome.min.css' | asset_url | stylesheet_tag }}
+{{ 'style.font-awesome.min.css' | asset_url | stylesheet_tag }}
 
 <link rel="stylesheet" href="{{ 'animate.css' | asset_url }}" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="{{ 'animate.css' | asset_url }}"></noscript>
@@ -112,8 +110,7 @@
 <link rel="stylesheet" href="{{ 'style.fotorama.min.css' | asset_url }}" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="{{ 'style.fotorama.min.css' | asset_url }}"></noscript>
 
-<link rel="stylesheet" href="{{ 'style.magnific-popup.min.css' | asset_url }}" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="{{ 'style.magnific-popup.min.css' | asset_url }}"></noscript>
+{{ 'style.magnific-popup.min.css' | asset_url | stylesheet_tag }}
 
 <link rel="stylesheet" href="{{ 'skeleton.css' | asset_url }}" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="{{ 'skeleton.css' | asset_url }}"></noscript>
@@ -121,6 +118,9 @@
 {%- comment -%} Page-specific Conditional CSS (Only loaded when that page is visited) {%- endcomment -%}
 {% if type_name == 'product' %}
   {{ 'product_page.css' | asset_url | stylesheet_tag }}
+{% else %}
+  <link rel="stylesheet" href="{{ 'product_page.css' | asset_url }}" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="{{ 'product_page.css' | asset_url }}"></noscript>
 {% endif %}
 
 {% if type_name == 'blog' or type_name == 'article' %}

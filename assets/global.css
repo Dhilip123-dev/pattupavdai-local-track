@@ -7729,14 +7729,12 @@ h6 {
 /* Fix Select Options / Add to Cart button: silky-smooth reveal & hide animation inside image */
 .product-item .button-cart-bottom {
     bottom: 15px !important;
-    transform: translateY(18px) !important;
+    transform: translateY(8px) !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none;
     z-index: 3;
-    -webkit-transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease, visibility 0s linear 0.35s !important;
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease, visibility 0s linear 0.35s !important;
-    will-change: transform, opacity;
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out !important;
 }
 
 .product-item:hover .button-cart-bottom {
@@ -7745,15 +7743,13 @@ h6 {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto;
-    -webkit-transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease !important;
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease !important;
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out !important;
 }
 
 /* Eliminate conflicting transitions on the button element itself */
 .product-item .button-cart-bottom .select_options,
 .product-item .button-cart-bottom .add-to-cart {
-    -webkit-transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease !important;
-    transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
 }
 
 @media screen and (max-width: 767px) {
