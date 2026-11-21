@@ -1,5 +1,5 @@
 <script>
-  (function(){if(typeof EventTarget!=="undefined"){let func=EventTarget.prototype.addEventListener;EventTarget.prototype.addEventListener=function(type,fn,capture){this.func=func;if(typeof capture!=="boolean"){capture=capture||{};capture.passive=!1}
+  (function(){if(typeof EventTarget!=="undefined"){let func=EventTarget.prototype.addEventListener;EventTarget.prototype.addEventListener=function(type,fn,capture){this.func=func;if(typeof capture!=="boolean"){capture=capture||{};if(["touchstart","touchmove","wheel","mousewheel"].indexOf(type)!==-1){capture.passive=true;}}
   this.func(type,fn,capture)}}}())
 </script>
 <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>

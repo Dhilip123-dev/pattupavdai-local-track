@@ -12,13 +12,8 @@
   {%- if canonical_url != blank  -%}
   <link rel="canonical" href="{{ canonical_url }}">
   {%- endif -%}
-  <link rel="prefetch" as="document" href="https://{{shop.domain}}">
-  <link rel="preconnect" href="//{{shop.permanent_domain}}" crossorigin>
   <link rel="preconnect" href="//cdn.shopify.com" crossorigin>
-  <link rel="preconnect" href="//fonts.shopifycdn.com" crossorigin>
-  <link rel="preconnect" href="//cdn.shopifycloud.com" crossorigin>
-  <link rel="preconnect" href="//fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   {% capture seo_title %}
     {{ page_title }}
     {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}
@@ -41,23 +36,34 @@
   {% include 'header-stylesheets' %}
   {% include 'header-scripts' %}
 
-  <!-- Google tag (gtag.js) --> 
+  <!-- Google tag (gtag.js) with Smart Interaction Loading --> 
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GT-PZZSCWHR');
+    gtag('config', 'AW-17901715993');
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GT-PZZSCWHR"></script> 
-    
-    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'GT-PZZSCWHR'); </script>
+    function loadGtagScripts() {
+      if (window._gtagLoaded) return;
+      window._gtagLoaded = true;
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17901715993">
-</script>
+      var s1 = document.createElement('script');
+      s1.async = true;
+      s1.src = 'https://www.googletagmanager.com/gtag/js?id=GT-PZZSCWHR';
+      document.head.appendChild(s1);
 
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+      var s2 = document.createElement('script');
+      s2.async = true;
+      s2.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17901715993';
+      document.head.appendChild(s2);
+    }
 
- gtag('config', 'AW-17901715993');
-</script>
+    ['scroll', 'touchstart', 'mousemove', 'click'].forEach(function(evt) {
+      window.addEventListener(evt, loadGtagScripts, { once: true, passive: true });
+    });
+    setTimeout(loadGtagScripts, 7000);
+  </script>
 
 <!-- Event snippet for Google Shopping App Purchase conversion page -->
 <script>

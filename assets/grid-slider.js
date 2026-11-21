@@ -11,7 +11,7 @@
         var _ = this,
         	defaults = {
 	            selector: '.grid-slider',
-	            IntersectionObserver: false
+	            IntersectionObserver: true
 	        },
             $element = $(element);
         _.settings = {};
@@ -73,14 +73,14 @@
 								if (entry.isIntersecting) {
 									var el  = entry.target;
 									var $el = $(el);
+									observer.unobserve(el);
 									$el.on('init', function(){
 										$head.find('#' + styleId).remove();
 									});
 									_.sliderRender($el);
-									/* gridSliderObserver.unobserve(el); */
 								}
 							});
-						});
+						}, { rootMargin: '300px 0px' });
 						element.each(function(index, el){
                             var $el = $(el);
                             if($el.is(':visible')){
