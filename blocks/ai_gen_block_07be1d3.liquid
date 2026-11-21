@@ -1,0 +1,166 @@
+{% doc %}
+  @prompt
+    Fix the new Pattupavadai theme's storefront interactions so the mobile navigation menu opens when the menu button is tapped, and all existing popups such as search, cart, account, and modal dialogs open and close correctly on mobile. Preserve the current design and desktop behavior, prevent background scrolling while an overlay is open, and ensure close buttons, backdrop taps, and the Escape key work. Do not add unrelated features or change the store's visual styling.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-interaction-repair-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: 0;
+    overflow: visible;
+    position: relative;
+    z-index: 2147483000;
+  }
+{% endstyle %}
+
+<mobile-interaction-repair-{{ ai_gen_id }} class="ai-interaction-repair-{{ ai_gen_id }}" {{ block.shopify_attributes }}></mobile-interaction-repair-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    if (customElements.get('mobile-interaction-repair-{{ ai_gen_id }}')) return;
+
+    class MobileInteractionRepair{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.bound = false;
+        this.setup();
+        document.addEventListener('shopify:section:load', this.setup.bind(this));
+      }
+
+      setup() {
+        if (this.bound) return;
+        this.bound = true;
+        this.openSelectors = [
+          '[data-drawer-toggle]',
+          '[data-menu-toggle]',
+          '[data-mobile-menu-toggle]',
+          '[data-search-toggle]',
+          '[data-cart-toggle]',
+          '[data-account-toggle]',
+          '[aria-controls]'
+        ].join(',');
+        this.closeSelectors = [
+          '[data-drawer-close]',
+          '[data-menu-close]',
+          '[data-close]',
+          '[data-modal-close]',
+          '.close',
+          '.popup-close',
+          '.drawer__close',
+          '.modal__close'
+        ].join(',');
+        document.addEventListener('click', this.handleClick.bind(this), true);
+        document.addEventListener('keydown', this.handleKeydown.bind(this), true);
+        window.addEventListener('resize', this.handleResize.bind(this), { passive: true });
+      }
+
+      isMobile() {
+        return window.matchMedia('(max-width: 749px)').matches;
+      }
+
+      getTarget(control) {
+        var id = control.getAttribute('aria-controls') || control.dataset.target || control.dataset.drawerTarget || control.dataset.popupTarget;
+        if (!id) return null;
+        id = id.replace(/^#/, '');
+        return document.getElementById(id) || document.querySelector(id.startsWith('.') ? id : '#' + id);
+      }
+
+      isOverlay(element) {
+        if (!element || element === document.body) return false;
+        var role = element.getAttribute('role') || '';
+        var text = (element.id + ' ' + element.className).toLowerCase();
+        return role === 'dialog' || /drawer|modal|popup|overlay|offcanvas|mobile-menu|search|cart|account/.test(text);
+      }
+
+      setOpen(element, open, control) {
+        if (!element) return;
+        element.classList.toggle('is-open', open);
+        element.classList.toggle('open', open);
+        element.classList.toggle('active', open);
+        element.setAttribute('aria-hidden', open ? 'false' : 'true');
+        if (control) control.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) {
+          document.documentElement.style.overflow = 'hidden';
+          document.body.style.overflow = 'hidden';
+        } else if (!document.querySelector('.is-open, .open, .active[role="dialog"], [aria-hidden="false"]')) {
+          document.documentElement.style.overflow = '';
+          document.body.style.overflow = '';
+        }
+      }
+
+      handleClick(event) {
+        if (!this.isMobile()) return;
+        var control = event.target.closest(this.openSelectors);
+        var close = event.target.closest(this.closeSelectors);
+        var backdrop = event.target.closest('[data-overlay], .overlay, .modal-backdrop, .drawer-backdrop, .popup-overlay');
+
+        if (close) {
+          var container = close.closest('[role="dialog"], .drawer, .popup, .modal, .offcanvas, .is-open, .open, .active');
+          this.setOpen(container, false);
+          return;
+        }
+
+        if (backdrop && (event.target === backdrop || backdrop.dataset.overlayClose === 'true')) {
+          this.setOpen(backdrop.closest('[role="dialog"], .drawer, .popup, .modal, .offcanvas') || backdrop, false);
+          return;
+        }
+
+        if (!control) return;
+        var target = this.getTarget(control);
+        if (!target || !this.isOverlay(target)) return;
+        event.preventDefault();
+        event.stopPropagation();
+        var open = !target.classList.contains('is-open') && !target.classList.contains('open') && target.getAttribute('aria-hidden') !== 'false';
+        document.querySelectorAll('[aria-hidden="false"], .is-open, .open').forEach(function(item) {
+          if (item !== target && this.isOverlay(item)) this.setOpen(item, false);
+        }, this);
+        this.setOpen(target, open, control);
+      }
+
+      handleKeydown(event) {
+        if (event.key !== 'Escape' || !this.isMobile()) return;
+        var opened = document.querySelector('[aria-hidden="false"], .is-open, .open, .active[role="dialog"]');
+        if (opened && this.isOverlay(opened)) {
+          event.preventDefault();
+          this.setOpen(opened, false);
+        }
+      }
+
+      handleResize() {
+        if (!this.isMobile()) {
+          document.documentElement.style.overflow = '';
+          document.body.style.overflow = '';
+        }
+      }
+    }
+
+    customElements.define('mobile-interaction-repair-{{ ai_gen_id }}', MobileInteractionRepair{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Mobile interaction repair",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mobile interaction repair"
+    }
+  ],
+  "tag": null,
+  "class": "mobile-interaction-repair-block"
+}
+{% endschema %}

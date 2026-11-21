@@ -1,0 +1,2308 @@
+{% if section.settings.home_page_only == false or template.name == 'index' %}
+  {% if section.settings.header_use_top_header %}
+  <div class="topbar {% if section.settings.hide_top_header_mobile %}hide-mobile{% endif %}" 
+    style="
+        --color-border:{{section.settings.cl_border_top}};
+        --color-bg:{{section.settings.bg_top_header}};
+        --color-text:{{section.settings.cl_text}};
+        --color-text-hover:{{section.settings.cl_text_h}};
+        ">
+    <div class="container {% if section.settings.layout == 'full-width' %}{{section.settings.layout}} {% endif %} " {% if section.settings.custom_width %}style="--alo-container-width:{{ section.settings.container_width }}px;"{% endif %}>
+      <div class="row">
+        <div class="announcement-bar">
+          {%- for block in section.blocks -%}
+             
+            {% assign hide_mobile = block.settings.hide_mobile %}
+            {% assign text_align = block.settings.text_align %}
+            {% if block.type == 'top_header_4' or block.type == 'top_header_5' %}
+              {% if text_align == blank %}
+                {% assign text_align = 'topbar-center' %}
+              {% endif %}
+            {% endif %}
+            {% assign col_setting = block.settings.col %}
+            {% if block.type == 'top_header_4' or block.type == 'top_header_5' %}
+              {% if col_setting == blank %}
+                {% assign col_setting = '100%' %}
+              {% endif %}
+            {% endif %}
+            {% case col_setting %}
+                {% when '16%' %}
+                    {%- assign block_width = 'col-lg-2 col-md-2 col-12' -%}
+                {% when '25%' %}
+                    {%- assign block_width = 'col-lg-3 col-md-3 col-12' -%}
+                {% when '33%' %}
+                    {%- assign block_width = 'col-lg-4 col-md-4 col-12' -%}
+                {% when '42%' %}
+                    {%- assign block_width = 'col-lg-5 col-md-5 col-12' -%}
+                {% when '50%' %}
+                    {%- assign block_width = 'col-lg-6 col-md-6 col-12' -%}
+                {% when '58%' %}
+                    {%- assign block_width = 'col-lg-7 col-md-7 col-12' -%}
+                {% when '66%' %}
+                    {%- assign block_width = 'col-lg-8 col-md-8 col-12' -%}
+                {% when '75%' %}
+                    {%- assign block_width = 'col-lg-9 col-md-9 col-12' -%}
+                {% when '100%' %}
+                    {%- assign block_width = 'col-12' -%}
+            {% endcase %}
+          {%- case block.type -%}
+          	{%- when 'contac_header' -%} 
+          		<div class="{{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                    <div class="top_contac">
+                      <ul>
+                        {%- if block.settings.show_phone -%}
+                              <li><a href="tel:{{shop.phone}}"><i class="icon-phone-call"></i> {{shop.phone}}</a></li>
+                         {%endif%}
+                         {%- if block.settings.show_email -%}
+                              <li><a href="mailto:{{shop.email}}"><i class="icon-mail"></i> {{shop.email}}</a></li>
+                         {%endif%}
+                      </ul>
+                    </div>
+                  </div>
+          	{%- when 'message' -%} 
+                  	<div class="wrapper-bar-message {{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                        <p class="announcement-bar__message">
+                          {{ block.settings.message_text }} 
+                              {%- if  block.settings.text_link != blank -%}
+                                <a id="b_{{block.id}}"  class="buttons alo-color alo-color-hover" href="{{block.settings.btn_link}}" style="--alo-color:{{block.settings.color_link}};--alo-color-hover:{{block.settings.color_link_hover}};" target="{{block.settings.open_link}}"
+                                   {{ block.shopify_attributes }}>{{block.settings.text_link}}</a>
+                              {%- endif -%}
+                        </p>
+                      </div>
+          	{%- when 'top_header_3' -%} 
+          		<div class="{{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                    	{% if block.settings.menu_topbar != blank%}
+                    	<ul class="topbar-menu">
+                          {% assign handle = block.settings.menu_topbar %}     
+                          {% for link in linklists[handle].links %}
+                              <li><a href="{{link.url}}"> {{ link.title }} </a></li>
+                          {% endfor %}
+                      </ul>
+                    	{%endif%}
+                      {% assign type_social = block.settings.type_social | plus: 0 %}
+                      {%if block.settings.header_use_social%}
+                          {%- if type_social == 1 -%}
+                            {% include 'social_link' %}
+                          {%- else -%}
+                              {% include 'social-sharing' %}
+                          {%- endif -%}
+                      {% endif %}
+                    	
+                    </div>
+  {%- when 'lang_curr' -%} 
+          		<div class="{{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                   
+                   {%if block.settings.header_use_language or block.settings.header_use_currency %}
+                     {% assign showFlag = block.settings.show_flag %}
+                      <ul class="menu-language parent-list">
+                        {%if block.settings.header_use_language%}
+                          {% render 'language', showFlag:showFlag %} 
+                        {% endif %}
+                        {% if block.settings.header_use_currency %}
+                          {% render 'currency', showFlag: showFlag %}
+                        {% endif %}
+                       {%if block.settings.show_phone %}
+                        <li class="hide-mobile" style="--color-text:{{ block.settings.cl_phone }}"><span>{{ block.settings.text_phone }}</span></li> 
+                       {% endif %}  
+                      </ul> 
+                    {% endif %}
+                    {% if block.settings.menu_topbar != blank%}
+                    	<ul class="topbar-menu hide-mobile">
+                          {% assign handle = block.settings.menu_topbar %}     
+                          {% for link in linklists[handle].links %}
+                              <li><a href="{{link.url}}"> {{ link.title }} </a></li>
+                          {% endfor %}
+                      </ul>
+                   {%endif%}
+                    </div>
+          	{%- when 'top_header_4' -%}
+              <div class="announcement-full-width {{ block_width }} {{ text_align }} flex {% if hide_mobile %}hide-mobile{% endif %}" style="--announcement-color: {{ block.settings.color_text | default: '#ffffff' }}; --announcement-font-size: {{ block.settings.font_size | default: 14 }}px; --announcement-font-weight: {{ block.settings.font_weight | default: '600' }};">
+
+    <div class="announcement-slider"
+         data-speed="{{ block.settings.speed | times: 1000 }}">
+
+        {% if block.settings.text1 != blank %}
+            <span class="announcement-item active">
+                {{ block.settings.text1 }}
+            </span>
+        {% endif %}
+
+        {% if block.settings.text2 != blank %}
+            <span class="announcement-item">
+                {{ block.settings.text2 }}
+            </span>
+        {% endif %}
+
+        {% if block.settings.text3 != blank %}
+            <span class="announcement-item">
+                {{ block.settings.text3 }}
+            </span>
+        {% endif %}
+
+        {% if block.settings.text4 != blank %}
+            <span class="announcement-item">
+                {{ block.settings.text4 }}
+            </span>
+        {% endif %}
+
+    </div>
+
+</div>
+          	{%- when 'top_header_5' -%}
+              {%- assign offer_count = 0 -%}
+              {%- if block.settings.offer1_title != blank -%}{%- assign offer_count = offer_count | plus: 1 -%}{%- endif -%}
+              {%- if block.settings.offer2_title != blank -%}{%- assign offer_count = offer_count | plus: 1 -%}{%- endif -%}
+              {%- if block.settings.offer3_title != blank -%}{%- assign offer_count = offer_count | plus: 1 -%}{%- endif -%}
+              {%- if block.settings.offer4_title != blank -%}{%- assign offer_count = offer_count | plus: 1 -%}{%- endif -%}
+              {%- assign show_timer = block.settings.enable_timer -%}
+
+              <div class="{{text_align}} {{ block_width }} flex {% if hide_mobile %}hide-mobile{%endif%}">
+                <div class="announcement-bar-countdown" id="AnnouncementBar-{{ block.id }}" style="width: 100%;">
+                  <div class="announcement-bar-countdown__container {% if show_timer == false or offer_count == 0 %}justify-center{% endif %}">
+                    
+                    <!-- Left Side: Timer -->
+                    {% if show_timer %}
+                      <div class="announcement-bar-countdown__timer-wrapper" 
+                           id="timer-wrapper-{{ block.id }}"
+                           data-start-year="{{ block.settings.start_year }}"
+                           data-start-month="{{ block.settings.start_month }}"
+                           data-start-day="{{ block.settings.start_day }}"
+                           data-start-hour="{{ block.settings.start_hour }}"
+                           data-start-minute="{{ block.settings.start_minute }}"
+                           data-end-year="{{ block.settings.end_year }}"
+                           data-end-month="{{ block.settings.end_month }}"
+                           data-end-day="{{ block.settings.end_day }}"
+                           data-end-hour="{{ block.settings.end_hour }}"
+                           data-end-minute="{{ block.settings.end_minute }}"
+                           data-hide-on-complete="{{ block.settings.hide_timer_on_complete }}"
+                           data-coming-soon-msg="{{ block.settings.coming_soon_message | escape }}"
+                           data-active-msg="{{ block.settings.timer_label | escape }}"
+                           data-complete-msg="{{ block.settings.timer_complete_message | escape }}"
+                      >
+                        <div class="announcement-bar-countdown__timer-label">
+                          <svg class="announcement-bar-countdown__icon" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                          </svg>
+                          <span id="timer-label-text-{{ block.id }}">{{ block.settings.timer_label }}</span>
+                        </div>
+                        
+                        <div class="announcement-bar-countdown__timer-box" id="timer-box-{{ block.id }}">
+                          <span class="timer-segment" id="days-{{ block.id }}">00D</span>
+                          <span class="timer-separator">:</span>
+                          <span class="timer-segment" id="hours-{{ block.id }}">00H</span>
+                          <span class="timer-separator">:</span>
+                          <span class="timer-segment" id="minutes-{{ block.id }}">00M</span>
+                          <span class="timer-separator">:</span>
+                          <span class="timer-segment" id="seconds-{{ block.id }}">00S</span>
+                        </div>
+                        
+                        <div class="announcement-bar-countdown__timer-message" style="display: none;" id="timer-message-{{ block.id }}">
+                          {{ block.settings.timer_complete_message }}
+                        </div>
+                      </div>
+                    {% endif %}
+                    
+                    <!-- Right Side: Offers -->
+                    {% if offer_count > 0 %}
+                      <div class="announcement-bar-countdown__offers" 
+                           id="offers-{{ block.id }}"
+                           data-mobile-interval="{{ block.settings.mobile_interval | times: 1000 }}"
+                      >
+                        {% assign offer_index = 0 %}
+                        {%- for i in (1..4) -%}
+                          {%- capture offer_title_key -%}offer{{ i }}_title{%- endcapture -%}
+                          {%- capture offer_title_mobile_key -%}offer{{ i }}_title_mobile{%- endcapture -%}
+                          {%- capture offer_subtitle_key -%}offer{{ i }}_subtitle{%- endcapture -%}
+                          {%- capture offer_subtitle_mobile_key -%}offer{{ i }}_subtitle_mobile{%- endcapture -%}
+                          {%- capture offer_icon_key -%}offer{{ i }}_icon{%- endcapture -%}
+                          {%- capture offer_custom_icon_key -%}offer{{ i }}_custom_icon_svg{%- endcapture -%}
+                          {%- capture offer_link_key -%}offer{{ i }}_link{%- endcapture -%}
+                          
+                          {%- assign title = block.settings[offer_title_key] -%}
+                          {%- assign title_mobile = block.settings[offer_title_mobile_key] -%}
+                          {%- assign subtitle = block.settings[offer_subtitle_key] -%}
+                          {%- assign subtitle_mobile = block.settings[offer_subtitle_mobile_key] -%}
+                          {%- assign icon = block.settings[offer_icon_key] -%}
+                          {%- assign custom_icon_svg = block.settings[offer_custom_icon_key] -%}
+                          {%- assign link = block.settings[offer_link_key] -%}
+                          
+                          {%- if title != blank -%}
+                            {%- assign offer_index = offer_index | plus: 1 -%}
+                            {%- if link != blank -%}
+                              <a href="{{ link }}" class="announcement-bar-countdown__offer-item {% if offer_index == 1 %}is-active{% endif %}" {{ block.shopify_attributes }}>
+                            {%- else -%}
+                              <div class="announcement-bar-countdown__offer-item {% if offer_index == 1 %}is-active{% endif %}" {{ block.shopify_attributes }}>
+                            {%- endif -%}
+                              
+                              {%- if icon != 'none' -%}
+                                <div class="announcement-bar-countdown__offer-icon">
+                                  {%- case icon -%}
+                                    {%- when 'gift' -%}
+                                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                                    {%- when 'truck' -%}
+                                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                                    {%- when 'globe' -%}
+                                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                    {%- when 'tag' -%}
+                                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                                    {%- when 'star' -%}
+                                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    {%- when 'heart' -%}
+                                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                    {%- when 'custom' -%}
+                                      {{ custom_icon_svg }}
+                                  {%- endcase -%}
+                                </div>
+                              {%- endif -%}
+                              
+                              <div class="announcement-bar-countdown__offer-text">
+                                {%- if title_mobile != blank -%}
+                                  <span class="announcement-bar-countdown__offer-title hide-mobile">{{ title }}</span>
+                                  <span class="announcement-bar-countdown__offer-title show-mobile">{{ title_mobile }}</span>
+                                {%- else -%}
+                                  <span class="announcement-bar-countdown__offer-title">{{ title }}</span>
+                                {%- endif -%}
+                                
+                                {%- if subtitle != blank or subtitle_mobile != blank -%}
+                                  {%- if subtitle_mobile != blank -%}
+                                    {%- if subtitle != blank -%}
+                                      <span class="announcement-bar-countdown__offer-subtitle hide-mobile">{{ subtitle }}</span>
+                                    {%- endif -%}
+                                    <span class="announcement-bar-countdown__offer-subtitle show-mobile">{{ subtitle_mobile }}</span>
+                                  {%- else -%}
+                                    <span class="announcement-bar-countdown__offer-subtitle">{{ subtitle }}</span>
+                                  {%- endif -%}
+                                {%- endif -%}
+                              </div>
+                              
+                            {%- if link != blank -%}
+                              </a>
+                            {%- else -%}
+                              </div>
+                            {%- endif -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    {% endif %}
+                    
+                  </div>
+                </div>
+              </div>
+          {%- endcase -%}
+          {%- endfor -%}
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  {% style%}
+  .alo_slidershow {--height-bar: 60px;}
+  .text-horizontal-running{
+
+    position:relative;
+    overflow:hidden;
+    height:40px;
+
+}
+
+.announcement-full-width {
+    width: 100%;
+    flex: 0 0 100%;
+}
+
+.announcement-slider{
+
+    position:relative;
+    width:100%;
+    height:40px;
+    overflow:hidden;
+
+}
+
+.announcement-item{
+
+    position:absolute;
+    width:100%;
+    left:0;
+    top:0;
+    height:100%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transform:translateX(100px);
+
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.5s;
+
+    color: var(--announcement-color, #ffffff);
+    font-size: var(--announcement-font-size, 14px);
+    font-weight: var(--announcement-font-weight, 600);
+
+}
+
+.announcement-item.active{
+
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateX(0);
+
+}
+
+.announcement-item.hide{
+
+    opacity:0;
+    visibility:visible;
+    pointer-events:none;
+    transform:translateX(-100px);
+
+}
+
+.topbar-left .announcement-item {
+    justify-content: flex-start;
+}
+.topbar-center .announcement-item {
+    justify-content: center;
+}
+.topbar-right .announcement-item {
+    justify-content: flex-end;
+}
+
+@media (max-width: 767px) {
+  .text-horizontal-running,
+  .announcement-slider {
+    height: 35px;
+  }
+  .announcement-item {
+    /* font-size: calc(var(--announcement-font-size, 14px) - 2px) !important; */
+    font-size:0.69rem !important;
+    letter-spacing:0.9px;
+    /* padding: 0 4px; */
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'top_header_5' -%}
+      #AnnouncementBar-{{ block.id }} {
+        background-color: {{ block.settings.color_bg }};
+        color: {{ block.settings.color_text }};
+        padding: {{ block.settings.bar_padding_y }}px 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        position: relative;
+        z-index: 10;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__container.justify-center {
+        justify-content: center;
+      }
+
+      /* Left Side: Timer */
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex-shrink: 0;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: {{ block.settings.color_timer_label }};
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__icon {
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        display: inline-block;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background-color: {{ block.settings.color_timer_bg }};
+        border: 1px solid {{ block.settings.color_timer_border }};
+        border-radius: 30px;
+        padding: 6px 18px;
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        color: {{ block.settings.color_timer_text }};
+      }
+
+      #AnnouncementBar-{{ block.id }} .timer-segment {
+        min-width: 32px;
+        text-align: center;
+      }
+
+      #AnnouncementBar-{{ block.id }} .timer-separator {
+        color: {{ block.settings.color_timer_border }};
+        opacity: 0.8;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-message {
+        font-weight: 600;
+        font-size: 14px;
+        color: {{ block.settings.color_timer_label }};
+        animation: bar-pulse-{{ block.id }} 2s infinite;
+      }
+
+      /* Right Side: Offers */
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offers {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        flex-grow: 1;
+        justify-content: flex-end;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: inherit;
+        position: relative;
+        transition: transform 0.2s ease;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item:hover {
+        transform: translateY(-1px);
+      }
+
+      /* Desktop divider */
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: -15px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 45px;
+        background-color: {{ block.settings.color_text }};
+        opacity: 0.2;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-icon {
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: {{ block.settings.color_timer_border }};
+        flex-shrink: 0;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-icon svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-text {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-title {
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 1.2;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-subtitle {
+        font-size: 14px;
+        opacity: 0.8;
+        line-height: 1.2;
+        margin-top: 1px;
+      }
+
+      #AnnouncementBar-{{ block.id }} .show-mobile {
+        display: none !important;
+      }
+
+      @keyframes bar-pulse-{{ block.id }} {
+        0% { opacity: 0.8; }
+        50% { opacity: 1; }
+        100% { opacity: 0.8; }
+      }
+
+      /* Tablet & Mobile shared styles: Enable the carousel behavior */
+      @media screen and (max-width: 1024px) {
+        #AnnouncementBar-{{ block.id }} {
+          padding: {{ block.settings.bar_padding_y }}px 15px;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__container {
+          gap: 15px;
+        }
+
+        /* Enable Offers Carousel (Only show one active slide) */
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offers {
+          position: relative;
+          overflow: hidden;
+          height: {{ block.settings.mobile_carousel_height }}px;
+          display: flex;
+          gap: 0;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          opacity: 0;
+          transform: translateY(100%);
+          transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease;
+          pointer-events: none;
+          gap: 8px;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item.is-active {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item.is-leaving {
+          opacity: 0;
+          transform: translateY(-100%);
+          pointer-events: none;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-icon {
+          width: 18px;
+          height: 18px;
+          color: {{ block.settings.color_timer_border }};
+          flex-shrink: 0;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-title {
+          font-size: 12px;
+          white-space: nowrap;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-subtitle {
+          display: none !important;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-subtitle.show-mobile {
+          display: inline-block !important;
+        }
+
+        #AnnouncementBar-{{ block.id }} .hide-mobile {
+          display: none !important;
+        }
+
+        #AnnouncementBar-{{ block.id }} .show-mobile {
+          display: inline-block !important;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item:not(:last-child)::after {
+          display: none; /* Hide dividers in carousel */
+        }
+      }
+
+      /* Tablet view: Single Row, Two Column (Offers Left, Timer Right) */
+      @media screen and (max-width: 1024px) and (min-width: 576px) {
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__container {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offers {
+          order: 1;
+          justify-content: flex-start;
+          width: 50%;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item {
+          justify-content: flex-start;
+          align-items: center;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-text {
+          text-align: left;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-wrapper {
+          order: 2;
+          justify-content: flex-end;
+          width: 50%;
+          gap: 8px;
+          flex-shrink: 0;
+          flex-wrap: nowrap;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-label {
+          font-size: 11px;
+          gap: 4px;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__icon {
+          width: 14px;
+          height: 14px;
+          flex-shrink: 0;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-box {
+          padding: 4px 10px;
+          font-size: 11px;
+          gap: 3px;
+          border-radius: 20px;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+
+        #AnnouncementBar-{{ block.id }} .timer-segment {
+          min-width: 22px;
+        }
+      }
+
+      /* Mobile view: Stacks vertically, centered */
+      @media screen and (max-width: 575px) {
+        #AnnouncementBar-{{ block.id }} {
+          padding: {{ block.settings.bar_padding_y }}px 10px;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__container {
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          padding: 2px 0;
+          width: 100%;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offers {
+          order: 1;
+          justify-content: center;
+          width: 100%;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-item {
+          justify-content: center;
+          align-items: center;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__offer-text {
+          text-align: center;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-wrapper {
+          order: 2;
+          justify-content: center;
+          width: 100%;
+          gap: 8px;
+          flex-shrink: 0;
+          flex-wrap: nowrap;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-label {
+          font-size: 11px;
+          gap: 4px;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__icon {
+          width: 14px;
+          height: 14px;
+          flex-shrink: 0;
+        }
+
+        #AnnouncementBar-{{ block.id }} .announcement-bar-countdown__timer-box {
+          padding: 4px 10px;
+          font-size: 11px;
+          gap: 3px;
+          border-radius: 20px;
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+
+        #AnnouncementBar-{{ block.id }} .timer-segment {
+          min-width: 22px;
+        }
+      }
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%endstyle%}
+     {% else %} 
+    {% style%}
+    .alo_slidershow {--height-bar: 0px;}
+    {%endstyle%} 
+  {% endif %}
+
+{% endif %}
+<script>
+  (function () {
+    function initAnnouncementSliders() {
+      document.querySelectorAll(".announcement-slider").forEach(function (slider) {
+        if (slider.dataset.initialized === "true") return;
+        slider.dataset.initialized = "true";
+
+        var items = slider.querySelectorAll(".announcement-item");
+        if (items.length <= 1) return;
+
+        var current = 0;
+        var rawSpeed = Number(slider.dataset.speed);
+        var speed = (!rawSpeed || isNaN(rawSpeed) || rawSpeed < 2000) ? 5000 : rawSpeed;
+        var timer = null;
+
+        // Ensure ONLY the first item is active initially, all others reset
+        items.forEach(function (item, idx) {
+          if (idx === 0) {
+            item.classList.add("active");
+            item.classList.remove("hide");
+          } else {
+            item.classList.remove("active", "hide");
+          }
+        });
+
+        function nextSlide() {
+          var prev = current;
+          current = (current + 1) % items.length;
+
+          // Transition previous item out
+          items[prev].classList.remove("active");
+          items[prev].classList.add("hide");
+
+          // Transition next item in
+          items[current].classList.remove("hide");
+          items[current].classList.add("active");
+
+          // Clean up all non-active items after transition finishes
+          setTimeout(function () {
+            items.forEach(function (item, idx) {
+              if (idx !== current) {
+                item.classList.remove("active", "hide");
+              }
+            });
+          }, 500);
+        }
+
+        function startTimer() {
+          stopTimer();
+          timer = setInterval(nextSlide, speed);
+        }
+
+        function stopTimer() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+
+        startTimer();
+
+        // Pause on mouse hover so user can read without jumping
+        slider.addEventListener("mouseenter", stopTimer);
+        slider.addEventListener("mouseleave", startTimer);
+
+        // Pause when tab is switched/minimized to prevent background queue collision
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) {
+            stopTimer();
+          } else {
+            startTimer();
+          }
+        });
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAnnouncementSliders);
+    } else {
+      initAnnouncementSliders();
+    }
+    document.addEventListener("shopify:section:load", initAnnouncementSliders);
+  })();
+</script>
+
+<script>
+  (function() {
+    // Reusable Countdown logic that can be copied/used anywhere
+    class CountdownTimer {
+      constructor(options) {
+        this.targetDate = options.targetDate;
+        this.startDate = options.startDate;
+        this.onTick = options.onTick;
+        this.onComplete = options.onComplete;
+        this.onComingSoon = options.onComingSoon;
+        this.timer = null;
+        
+        this.start();
+      }
+      
+      start() {
+        this.update();
+        this.timer = setInterval(() => this.update(), 1000);
+      }
+      
+      update() {
+        const now = new Date().getTime();
+        const start = this.startDate ? this.startDate.getTime() : null;
+        const target = this.targetDate.getTime();
+        
+        if (start && now < start) {
+          // Coming soon state
+          const diff = start - now;
+          if (typeof this.onComingSoon === 'function') {
+            this.onComingSoon(this.calculateTime(diff), diff);
+          }
+        } else if (now >= target) {
+          // Completed state
+          clearInterval(this.timer);
+          if (typeof this.onComplete === 'function') {
+            this.onComplete();
+          }
+        } else {
+          // Active state (counting down to targetDate)
+          const diff = target - now;
+          if (typeof this.onTick === 'function') {
+            this.onTick(this.calculateTime(diff), diff);
+          }
+        }
+      }
+      
+      calculateTime(ms) {
+        const totalSecs = Math.floor(ms / 1000);
+        return {
+          days: Math.floor(totalSecs / 86400),
+          hours: Math.floor((totalSecs % 86400) / 3600),
+          minutes: Math.floor((totalSecs % 3600) / 60),
+          seconds: totalSecs % 60
+        };
+      }
+      
+      stop() {
+        if (this.timer) {
+          clearInterval(this.timer);
+          this.timer = null;
+        }
+      }
+    }
+
+    // Slide up carousel class for mobile view
+    class OffersCarousel {
+      constructor(offersContainer) {
+        this.container = offersContainer;
+        this.items = Array.from(offersContainer.querySelectorAll('.announcement-bar-countdown__offer-item'));
+        this.intervalTime = parseInt(offersContainer.dataset.mobileInterval) || 5000;
+        this.currentIndex = 0;
+        this.interval = null;
+        
+        if (this.items.length <= 1) return;
+        this.init();
+      }
+      
+      init() {
+        this.resizeHandler = () => this.handleResize();
+        this.handleResize();
+        window.addEventListener('resize', this.resizeHandler);
+        this.container.addEventListener('mouseenter', () => this.stop());
+        this.container.addEventListener('mouseleave', () => this.start());
+      }
+      
+      handleResize() {
+        if (window.innerWidth <= 1024) {
+          this.start();
+        } else {
+          this.stop();
+        }
+      }
+      
+      start() {
+        if (this.interval) return;
+        if (window.innerWidth > 1024) return;
+        this.interval = setInterval(() => this.next(), this.intervalTime);
+      }
+      
+      stop() {
+        if (this.interval) {
+          clearInterval(this.interval);
+          this.interval = null;
+        }
+      }
+      
+      destroy() {
+        this.stop();
+        if (this.resizeHandler) {
+          window.removeEventListener('resize', this.resizeHandler);
+        }
+      }
+      
+      next() {
+        const currentItem = this.items[this.currentIndex];
+        this.currentIndex = (this.currentIndex + 1) % this.items.length;
+        const nextItem = this.items[this.currentIndex];
+        
+        currentItem.classList.remove('is-active');
+        currentItem.classList.add('is-leaving');
+        
+        nextItem.classList.add('is-active');
+        nextItem.classList.remove('is-leaving');
+        
+        setTimeout(() => {
+          currentItem.classList.remove('is-leaving');
+        }, 500);
+      }
+    }
+
+    // Main section initialization
+    function initAnnouncementBar(bar) {
+      const blockId = bar.id;
+      if (blockId) {
+        window.ShopifyCountdownTimers = window.ShopifyCountdownTimers || {};
+        window.ShopifyCountdownCarousels = window.ShopifyCountdownCarousels || {};
+
+        let cleanedUp = false;
+        if (window.ShopifyCountdownTimers[blockId]) {
+          window.ShopifyCountdownTimers[blockId].stop();
+          delete window.ShopifyCountdownTimers[blockId];
+          cleanedUp = true;
+        }
+        if (window.ShopifyCountdownCarousels[blockId]) {
+          window.ShopifyCountdownCarousels[blockId].destroy();
+          delete window.ShopifyCountdownCarousels[blockId];
+          cleanedUp = true;
+        }
+        if (cleanedUp) {
+          delete bar.dataset.initialized;
+        }
+      }
+
+      if (bar.dataset.initialized === 'true') return;
+      bar.dataset.initialized = 'true';
+
+      const timerWrapper = bar.querySelector('.announcement-bar-countdown__timer-wrapper');
+      const offersContainer = bar.querySelector('.announcement-bar-countdown__offers');
+      
+      if (offersContainer && blockId) {
+        window.ShopifyCountdownCarousels[blockId] = new OffersCarousel(offersContainer);
+      }
+      
+      if (timerWrapper) {
+        const parseNum = (val) => {
+          const parsed = parseInt(val);
+          return isNaN(parsed) ? null : parsed;
+        };
+
+        const startY = parseNum(timerWrapper.dataset.startYear);
+        const startM = parseNum(timerWrapper.dataset.startMonth);
+        const startD = parseNum(timerWrapper.dataset.startDay);
+        const startH = parseNum(timerWrapper.dataset.startHour);
+        const startMin = parseNum(timerWrapper.dataset.startMinute);
+        
+        const endY = parseNum(timerWrapper.dataset.endYear);
+        const endM = parseNum(timerWrapper.dataset.endMonth);
+        const endD = parseNum(timerWrapper.dataset.endDay);
+        const endH = parseNum(timerWrapper.dataset.endHour);
+        const endMin = parseNum(timerWrapper.dataset.endMinute);
+
+        // If essential fields are missing, hide the timer wrapper and center the offers
+        if (startY === null || startM === null || startD === null ||
+            endY === null || endM === null || endD === null) {
+          console.warn("Countdown timer: Missing start/end year, month, or day. Timer not started.");
+          timerWrapper.style.display = 'none';
+          const container = bar.querySelector('.announcement-bar-countdown__container');
+          if (container) container.classList.add('justify-center');
+          return;
+        }
+        
+        const startDate = new Date(startY, startM - 1, startD, startH || 0, startMin || 0, 0);
+        const endDate = new Date(endY, endM - 1, endD, endH || 0, endMin || 0, 0);
+
+        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+          console.warn("Countdown timer has invalid start or end date.");
+          timerWrapper.style.display = 'none';
+          const container = bar.querySelector('.announcement-bar-countdown__container');
+          if (container) container.classList.add('justify-center');
+          return;
+        }
+        
+        const labelText = bar.querySelector('[id^="timer-label-text-"]');
+        const timerBox = bar.querySelector('[id^="timer-box-"]');
+        const messageEl = bar.querySelector('[id^="timer-message-"]');
+        
+        const daysEl = bar.querySelector('[id^="days-"]');
+        const hoursEl = bar.querySelector('[id^="hours-"]');
+        const minutesEl = bar.querySelector('[id^="minutes-"]');
+        const secondsEl = bar.querySelector('[id^="seconds-"]');
+        
+        const hideOnComplete = timerWrapper.dataset.hideOnComplete === 'true';
+        const comingSoonMsg = timerWrapper.dataset.comingSoonMsg;
+        const activeMsg = timerWrapper.dataset.activeMsg;
+        const completeMsg = timerWrapper.dataset.completeMsg;
+        
+        function pad(num) {
+          return String(num).padStart(2, '0');
+        }
+        
+        function render(time) {
+          if (daysEl) daysEl.textContent = pad(time.days) + 'D';
+          if (hoursEl) hoursEl.textContent = pad(time.hours) + 'H';
+          if (minutesEl) minutesEl.textContent = pad(time.minutes) + 'M';
+          if (secondsEl) secondsEl.textContent = pad(time.seconds) + 'S';
+        }
+        
+        const timerInstance = new CountdownTimer({
+          startDate: startDate,
+          targetDate: endDate,
+          onComingSoon: (time) => {
+            if (labelText) labelText.textContent = comingSoonMsg || "Coming Soon";
+            if (timerBox) timerBox.style.display = 'inline-flex';
+            if (messageEl) messageEl.style.display = 'none';
+            render(time);
+          },
+          onTick: (time) => {
+            if (labelText) labelText.textContent = activeMsg || "Offer Ends In";
+            if (timerBox) timerBox.style.display = 'inline-flex';
+            if (messageEl) messageEl.style.display = 'none';
+            render(time);
+          },
+          onComplete: () => {
+            if (hideOnComplete) {
+              timerWrapper.style.display = 'none';
+              // Check if offers should be centered now that timer is hidden
+              const container = bar.querySelector('.announcement-bar-countdown__container');
+              if (container) container.classList.add('justify-center');
+            } else {
+              if (labelText) labelText.textContent = "";
+              if (timerBox) timerBox.style.display = 'none';
+              if (messageEl) {
+                messageEl.style.display = 'block';
+                messageEl.innerHTML = completeMsg || "Offer Expired!";
+              }
+            }
+          }
+        });
+
+        if (blockId) {
+          window.ShopifyCountdownTimers[blockId] = timerInstance;
+        }
+      }
+    }
+
+    // Initialize all announcement bars on load
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.announcement-bar-countdown').forEach(initAnnouncementBar);
+    });
+
+    // Theme Editor re-init
+    document.addEventListener('shopify:section:load', (event) => {
+      const section = event.target.querySelector('.announcement-bar-countdown');
+      if (section) {
+        initAnnouncementBar(section);
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "Top header",
+    "class":"cms-top-header",
+    "settings": [
+		{
+          "type": "header",
+          "content": "General settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "header_use_top_header",
+          "label": "Show top header",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_top_header_mobile",
+          "label": "Hide header (mobile)",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "home_page_only",
+          "label": "Home page only",
+          "default": true
+        }, 
+        {
+          "type": "checkbox",
+          "id": "custom_width",
+          "label":"Custom width",
+          "default": false
+        },
+        {
+            "type": "range",  
+            "id": "container_width",  
+            "label": "Container width",
+            "min": 1200,
+            "max": 1900,
+            "step": 10,
+            "unit": "px",
+            "default": 1200 
+        },
+		{
+          "type": "select",
+          "id": "layout",
+          "default": "full-width",
+          "options": [
+           {
+              "value": "container",
+              "label": "Container"
+           },
+           {
+              "value": "full-width",
+              "label": "Full Width"
+            }
+          ],
+          "label": "Layout"
+        },
+		{
+          "type": "header",
+          "content": "Design"
+        },
+        {
+          "type": "color",
+          "id": "bg_top_header",
+          "label": "Background color",
+          "default": "#f5f5f5"
+        },
+        {
+          "type": "color",
+          "id": "cl_border_top",
+          "label": "Border color",
+          "default": "#f5f5f5"
+        },
+		{
+          "type": "color",
+          "id": "cl_text",
+          "label": "Color text",
+          "default": "#777"
+        },
+		{
+          "type": "color",
+          "id": "cl_text_h",
+          "label": "Color hover",
+          "default": "#343e45"
+        }
+	],
+	"blocks": [
+		{
+          "type": "contac_header",
+          "name": "Top contac header",
+          "limit": 1,
+          "settings": [
+            {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+              {
+          "type": "checkbox",
+          "id": "show_phone",
+          "label": "Show Phone",
+          "default": true
+          },
+          {
+          "type": "checkbox",
+          "id": "show_email",
+          "label": "Show Email",
+          "default": true
+          },	    
+				{
+                "type": "select",
+                "id": "text_align",
+                "default": "topbar-left",
+                "options": [ 
+                {
+                  "value": "topbar-left",
+                  "label": "Left"
+                },
+                {
+                  "value": "topbar-center",
+                  "label": "center"
+                },
+                {
+                  "value": "topbar-right",
+                  "label": "Right"
+                }
+                ],
+                  "label": "text align:"
+              },
+              {
+        "type": "select",
+        "id": "col",
+        "default": "33%",
+        "options": [
+        {
+        "value": "16%",
+        "label": "16%"
+        },  
+        {
+        "value": "25%",
+        "label": "25%"
+        },
+        {
+        "value": "33%",
+        "label": "33%"
+        },
+         {
+        "value": "42%",
+        "label": "42%"
+        }, 
+        {
+        "value": "50%",
+        "label": "50%"
+        },
+        {
+        "value": "58%",
+        "label": "58%"
+        }, 
+        {
+        "value": "66%",
+        "label": "66%"
+        },
+        {
+        "value": "75%",
+        "label": "75%"
+        },
+        {
+        "value": "100%",
+        "label": "100%"
+        }
+        ],
+        "label": "Container width:"
+        }
+          ]
+        },
+		{
+          "type": "message",
+          "name": "Custom text",
+          "limit": 1,
+          "settings": [
+              {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+              {
+                "type": "text",
+                "id": "message_text",
+                "label": "Announcement text",
+                "default": "Free Delivery over £40 to most of UK*"
+              },
+              {
+                "type": "text",
+                "id": "text_link",
+                "label": "Link",
+                "default": "Shop Now"
+              },
+              {
+                "type": "url",
+                "id": "btn_link",
+                "label": "Button link",
+  			  "info": "Note: if you want to display this button then you need to fill button link"
+              }, 
+             {
+                "type": "select",
+                "id": "open_link",
+                "options": [
+                  {
+                    "value": "_self",
+                    "label": "Current window (_self)"
+                  },
+                 {
+                    "value": "_blank",
+                    "label": "New window (_blank)"
+                  }
+                ],
+                "label": "Open link in",
+                "default": "_blank"
+              },
+			  {
+                "type": "select",
+                "id": "text_align",
+                "default": "topbar-left",
+                "options": [ 
+                {
+                  "value": "topbar-left",
+                  "label": "Left"
+                },
+                {
+                  "value": "topbar-center",
+                  "label": "center"
+                },
+                {
+                  "value": "topbar-right",
+                  "label": "Right"
+                }
+                ],
+                  "label": "text align:"
+              },	
+              {
+        "type": "select",
+        "id": "col",
+        "default": "33%",
+        "options": [
+        {
+        "value": "16%",
+        "label": "16%"
+        },  
+        {
+        "value": "25%",
+        "label": "25%"
+        },
+        {
+        "value": "33%",
+        "label": "33%"
+        },
+         {
+        "value": "42%",
+        "label": "42%"
+        }, 
+        {
+        "value": "50%",
+        "label": "50%"
+        },
+        {
+        "value": "58%",
+        "label": "58%"
+        }, 
+        {
+        "value": "66%",
+        "label": "66%"
+        },
+        {
+        "value": "75%",
+        "label": "75%"
+        },
+        {
+        "value": "100%",
+        "label": "100%"
+        }
+        ],
+        "label": "Container width:"
+        },
+              {
+              "type": "color",
+              "id": "color_link",
+              "label": "color",
+              "default": "#1a1a1a"
+              },
+             {
+              "type": "color",
+              "id": "color_link_hover",
+              "label": "color (Hover)",
+              "default": "#1a1a1a"
+              }
+          ]
+        },
+		{
+          "type": "top_header_3",
+          "name": "Menu Top",
+          "limit": 1,
+          "settings": [
+            {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+				{
+                "type": "header",
+                "content": "Top Menu"
+              },
+				{
+                "type": "link_list",
+                "id": "menu_topbar",
+                "label": "Add topbar menu"
+              },
+
+              {
+                "type": "header",
+                "content": "Social settings"
+              },
+              {
+                "type": "checkbox",
+                "id": "header_use_social",
+                "label": "Display social on top bar",
+                "default": true,
+                "info":"Note: you can edit social at 'Theme settings' -> 'Social media'"
+              },
+			  {
+               "type": "select",
+               "id": "type_social",
+               "label": "Show sharing Or link:",
+               "options": [
+                 {
+                   "value": "1",
+                   "label": "Social link"
+                 },
+                 {
+                   "value": "2",
+                   "label": "Social sharing"
+                 }
+               ],
+               "default": "2"
+              },
+			  
+				{
+                "type": "select",
+                "id": "text_align",
+                "default": "topbar-left",
+                "options": [ 
+                {
+                  "value": "topbar-left",
+                  "label": "Left"
+                },
+                {
+                  "value": "topbar-center",
+                  "label": "center"
+                },
+                {
+                  "value": "topbar-right",
+                  "label": "Right"
+                }
+                ],
+                  "label": "text align:"
+              },	
+              {
+        "type": "select",
+        "id": "col",
+        "default": "33%",
+        "options": [
+        {
+        "value": "16%",
+        "label": "16%"
+        },  
+        {
+        "value": "25%",
+        "label": "25%"
+        },
+        {
+        "value": "33%",
+        "label": "33%"
+        },
+         {
+        "value": "42%",
+        "label": "42%"
+        }, 
+        {
+        "value": "50%",
+        "label": "50%"
+        },
+        {
+        "value": "58%",
+        "label": "58%"
+        }, 
+        {
+        "value": "66%",
+        "label": "66%"
+        },
+        {
+        "value": "75%",
+        "label": "75%"
+        },
+        {
+        "value": "100%",
+        "label": "100%"
+        }
+        ],
+        "label": "Container width:"
+        }
+          ]
+        },
+        {
+          "type": "lang_curr",
+          "name": "Language and currency",
+          "limit": 1,
+          "settings": [
+                {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+            {
+                "type": "link_list",
+                "id": "menu_topbar",
+                "label": "Add topbar menu"
+              },
+				{
+                "type": "header",
+                "content": "Currency and Language"
+              },
+               {
+                "type": "checkbox",
+                "id": "header_use_currency",
+                "label": "Display currency on top bar",
+                "default": true
+              },
+              {
+                "type": "checkbox",
+                "id": "header_use_language",
+                "label": "Display language on top bar",
+                "default": true
+              },
+              {
+                "type": "checkbox",
+                "id": "show_flag",
+                "label": "Show Flag Image",
+                "default": true
+              },
+              {
+                "type": "checkbox",
+                "id": "show_phone",
+                "label": "Show Phone Number",
+                "default": true
+              },
+              {
+                "type": "text",
+                "id": "text_phone",
+                "label": "Phone Number",
+                "default": "Need Help? +001 123 456 789"
+              },
+              {
+                "type": "color",
+                "id": "cl_phone",
+                "label": "Color Phone Number",
+                "default": "#fff"
+              },
+				{
+                "type": "select",
+                "id": "text_align",
+                "default": "topbar-left",
+                "options": [ 
+                {
+                  "value": "topbar-left",
+                  "label": "Left"
+                },
+                {
+                  "value": "topbar-center",
+                  "label": "center"
+                },
+                {
+                  "value": "topbar-right",
+                  "label": "Right"
+                }
+                ],
+                  "label": "text align:"
+              },	
+              {
+        "type": "select",
+        "id": "col",
+        "default": "33%",
+        "options": [
+        {
+        "value": "16%",
+        "label": "16%"
+        },  
+        {
+        "value": "25%",
+        "label": "25%"
+        },
+        {
+        "value": "33%",
+        "label": "33%"
+        },
+         {
+        "value": "42%",
+        "label": "42%"
+        }, 
+        {
+        "value": "50%",
+        "label": "50%"
+        },
+        {
+        "value": "58%",
+        "label": "58%"
+        }, 
+        {
+        "value": "66%",
+        "label": "66%"
+        },
+        {
+        "value": "75%",
+        "label": "75%"
+        },
+        {
+        "value": "100%",
+        "label": "100%"
+        }
+        ],
+        "label": "Container width:"
+        }
+          ]
+        },
+		{
+          "type": "top_header_4",
+          "name": "Text horizontal running",
+          "limit": 1,
+          "settings": [
+              {
+            "type": "checkbox",
+            "id": "hide_mobile",
+            "label": "Hide (mobile)",
+            "default": true
+          },
+              {
+                "type": "select",
+                "id": "text_align",
+                "default": "topbar-center",
+                "options": [ 
+                {
+                  "value": "topbar-left",
+                  "label": "Left"
+                },
+                {
+                  "value": "topbar-center",
+                  "label": "Center"
+                },
+                {
+                  "value": "topbar-right",
+                  "label": "Right"
+                }
+                ],
+                  "label": "Text align:"
+              },	
+              {
+        "type": "select",
+        "id": "col",
+        "default": "100%",
+        "options": [
+        {
+        "value": "16%",
+        "label": "16%"
+        },  
+        {
+        "value": "25%",
+        "label": "25%"
+        },
+        {
+        "value": "33%",
+        "label": "33%"
+        },
+         {
+        "value": "42%",
+        "label": "42%"
+        }, 
+        {
+        "value": "50%",
+        "label": "50%"
+        },
+        {
+        "value": "58%",
+        "label": "58%"
+        }, 
+        {
+        "value": "66%",
+        "label": "66%"
+        },
+        {
+        "value": "75%",
+        "label": "75%"
+        },
+        {
+        "value": "100%",
+        "label": "100%"
+        }
+        ],
+        "label": "Container width:"
+        },
+              {
+                "type": "color",
+                "id": "color_text",
+                "label": "Text color",
+                "default": "#ffffff"
+              },
+              {
+                "type": "range",
+                "id": "font_size",
+                "label": "Font size",
+                "min": 10,
+                "max": 24,
+                "step": 1,
+                "default": 14,
+                "unit": "px"
+              },
+              {
+                "type": "select",
+                "id": "font_weight",
+                "label": "Font weight",
+                "default": "600",
+                "options": [
+                  {
+                    "value": "300",
+                    "label": "300 (Light)"
+                  },
+                  {
+                    "value": "400",
+                    "label": "400 (Regular)"
+                  },
+                  {
+                    "value": "500",
+                    "label": "500 (Medium)"
+                  },
+                  {
+                    "value": "600",
+                    "label": "600 (Semi Bold)"
+                  },
+                  {
+                    "value": "700",
+                    "label": "700 (Bold)"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "id": "text1",
+                "label": "Text 1",
+                "default": "Free Delivery "
+              },
+              {
+                "type": "text",
+                "id": "text2",
+                "label": "Text 2",
+                "default": "Free Delivery "
+              },
+              {
+                "type": "text",
+                "id": "text3",
+                "label": "Text 3",
+                "default": "Free Delivery "
+              },
+              {
+                "type": "text",
+                "id": "text4",
+                "label": "Text 4",
+                "default": "Free Delivery "
+              },
+              {
+              "type": "range",
+              "id": "speed",
+              "label": "Change Speed",
+              "min": 2,
+              "max": 15,
+              "step": 1,
+              "default": 5,
+              "unit": "sec"
+            }
+          ]
+        },
+        {
+          "type": "top_header_5",
+          "name": "Announcement Countdown",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "checkbox",
+              "id": "hide_mobile",
+              "label": "Hide (mobile)",
+              "default": false
+            },
+            {
+              "type": "select",
+              "id": "text_align",
+              "default": "topbar-center",
+              "options": [ 
+                {
+                  "value": "topbar-left",
+                  "label": "Left"
+                },
+                {
+                  "value": "topbar-center",
+                  "label": "Center"
+                },
+                {
+                  "value": "topbar-right",
+                  "label": "Right"
+                }
+              ],
+              "label": "Text align:"
+            },	
+            {
+              "type": "select",
+              "id": "col",
+              "default": "100%",
+              "options": [
+                {
+                  "value": "16%",
+                  "label": "16%"
+                },  
+                {
+                  "value": "25%",
+                  "label": "25%"
+                },
+                {
+                  "value": "33%",
+                  "label": "33%"
+                },
+                {
+                  "value": "42%",
+                  "label": "42%"
+                }, 
+                {
+                  "value": "50%",
+                  "label": "50%"
+                },
+                {
+                  "value": "58%",
+                  "label": "58%"
+                }, 
+                {
+                  "value": "66%",
+                  "label": "66%"
+                },
+                {
+                  "value": "75%",
+                  "label": "75%"
+                },
+                {
+                  "value": "100%",
+                  "label": "100%"
+                }
+              ],
+              "label": "Container width:"
+            },
+            {
+              "type": "header",
+              "content": "Global Bar Styling"
+            },
+            {
+              "type": "color",
+              "id": "color_bg",
+              "label": "Background Color",
+              "default": "#5a0b38"
+            },
+            {
+              "type": "color",
+              "id": "color_text",
+              "label": "Text Color",
+              "default": "#ffffff"
+            },
+            {
+              "type": "range",
+              "id": "bar_padding_y",
+              "label": "Bar Vertical Padding (px)",
+              "min": 4,
+              "max": 40,
+              "step": 1,
+              "default": 12
+            },
+            {
+              "type": "range",
+              "id": "mobile_carousel_height",
+              "label": "Mobile Carousel Height (px)",
+              "min": 30,
+              "max": 80,
+              "step": 2,
+              "default": 42
+            },
+            {
+              "type": "header",
+              "content": "Timer Colors"
+            },
+            {
+              "type": "color",
+              "id": "color_timer_label",
+              "label": "Timer Label Color",
+              "default": "#d4af37"
+            },
+            {
+              "type": "color",
+              "id": "color_timer_bg",
+              "label": "Timer Box Background",
+              "default": "#450627"
+            },
+            {
+              "type": "color",
+              "id": "color_timer_border",
+              "label": "Timer Box Border",
+              "default": "#d4af37"
+            },
+            {
+              "type": "color",
+              "id": "color_timer_text",
+              "label": "Timer Digits Color",
+              "default": "#ffffff"
+            },
+            {
+              "type": "header",
+              "content": "Mobile Settings"
+            },
+            {
+              "type": "range",
+              "id": "mobile_interval",
+              "label": "Mobile Slide Interval (Seconds)",
+              "min": 2,
+              "max": 15,
+              "step": 1,
+              "default": 5
+            },
+            {
+              "type": "header",
+              "content": "Timer Settings"
+            },
+            {
+              "type": "checkbox",
+              "id": "enable_timer",
+              "label": "Enable Countdown Timer",
+              "default": true
+            },
+            {
+              "type": "text",
+              "id": "timer_label",
+              "label": "Timer Label (Active)",
+              "default": "Offer Ends In"
+            },
+            {
+              "type": "text",
+              "id": "coming_soon_message",
+              "label": "Coming Soon Label",
+              "default": "Coming Soon"
+            },
+            {
+              "type": "text",
+              "id": "timer_complete_message",
+              "label": "Timer Complete Message",
+              "default": "Offer Expired!"
+            },
+            {
+              "type": "checkbox",
+              "id": "hide_timer_on_complete",
+              "label": "Hide Timer On Complete",
+              "default": false
+            },
+            {
+              "type": "header",
+              "content": "Start Date"
+            },
+            {
+              "type": "number",
+              "id": "start_year",
+              "label": "Start Year",
+              "default": 2026
+            },
+            {
+              "type": "number",
+              "id": "start_month",
+              "label": "Start Month",
+              "default": 7
+            },
+            {
+              "type": "number",
+              "id": "start_day",
+              "label": "Start Day",
+              "default": 29
+            },
+            {
+              "type": "number",
+              "id": "start_hour",
+              "label": "Start Hour (0-23)",
+              "default": 0
+            },
+            {
+              "type": "number",
+              "id": "start_minute",
+              "label": "Start Minute (0-59)",
+              "default": 0
+            },
+            {
+              "type": "header",
+              "content": "End Date"
+            },
+            {
+              "type": "number",
+              "id": "end_year",
+              "label": "End Year",
+              "default": 2026
+            },
+            {
+              "type": "number",
+              "id": "end_month",
+              "label": "End Month",
+              "default": 8
+            },
+            {
+              "type": "number",
+              "id": "end_day",
+              "label": "End Day",
+              "default": 10
+            },
+            {
+              "type": "number",
+              "id": "end_hour",
+              "label": "End Hour (0-23)",
+              "default": 20
+            },
+            {
+              "type": "number",
+              "id": "end_minute",
+              "label": "End Minute (0-59)",
+              "default": 0
+            },
+            {
+              "type": "header",
+              "content": "Offer 1"
+            },
+            {
+              "type": "select",
+              "id": "offer1_icon",
+              "label": "Icon",
+              "options": [
+                {"value": "none", "label": "None"},
+                {"value": "gift", "label": "Gift"},
+                {"value": "truck", "label": "Truck (Shipping)"},
+                {"value": "globe", "label": "Globe (International)"},
+                {"value": "tag", "label": "Tag (Sale)"},
+                {"value": "star", "label": "Star"},
+                {"value": "heart", "label": "Heart"},
+                {"value": "custom", "label": "Custom SVG"}
+              ],
+              "default": "gift"
+            },
+            {
+              "type": "html",
+              "id": "offer1_custom_icon_svg",
+              "label": "Custom SVG Icon Code",
+              "info": "Paste custom SVG HTML code here if 'Custom SVG' is selected above."
+            },
+            {
+              "type": "text",
+              "id": "offer1_title",
+              "label": "Offer Title / Heading",
+              "default": "10% OFF"
+            },
+            {
+              "type": "text",
+              "id": "offer1_title_mobile",
+              "label": "Offer Title / Heading for Mobile (Optional)",
+              "info": "If left blank, the desktop title will be used."
+            },
+            {
+              "type": "text",
+              "id": "offer1_subtitle",
+              "label": "Offer Subtitle",
+              "default": "First Order (Max ₹500)"
+            },
+            {
+              "type": "text",
+              "id": "offer1_subtitle_mobile",
+              "label": "Offer Subtitle for Mobile (Optional)",
+              "info": "If left blank, the desktop subtitle will be used."
+            },
+            {
+              "type": "url",
+              "id": "offer1_link",
+              "label": "Offer Link (optional)"
+            },
+            {
+              "type": "header",
+              "content": "Offer 2"
+            },
+            {
+              "type": "select",
+              "id": "offer2_icon",
+              "label": "Icon",
+              "options": [
+                {"value": "none", "label": "None"},
+                {"value": "gift", "label": "Gift"},
+                {"value": "truck", "label": "Truck (Shipping)"},
+                {"value": "globe", "label": "Globe (International)"},
+                {"value": "tag", "label": "Tag (Sale)"},
+                {"value": "star", "label": "Star"},
+                {"value": "heart", "label": "Heart"},
+                {"value": "custom", "label": "Custom SVG"}
+              ],
+              "default": "truck"
+            },
+            {
+              "type": "html",
+              "id": "offer2_custom_icon_svg",
+              "label": "Custom SVG Icon Code",
+              "info": "Paste custom SVG HTML code here if 'Custom SVG' is selected above."
+            },
+            {
+              "type": "text",
+              "id": "offer2_title",
+              "label": "Offer Title / Heading",
+              "default": "FREE Shipping"
+            },
+            {
+              "type": "text",
+              "id": "offer2_title_mobile",
+              "label": "Offer Title / Heading for Mobile (Optional)",
+              "info": "If left blank, the desktop title will be used."
+            },
+            {
+              "type": "text",
+              "id": "offer2_subtitle",
+              "label": "Offer Subtitle",
+              "default": "Above ₹3,000"
+            },
+            {
+              "type": "text",
+              "id": "offer2_subtitle_mobile",
+              "label": "Offer Subtitle for Mobile (Optional)",
+              "info": "If left blank, the desktop subtitle will be used."
+            },
+            {
+              "type": "url",
+              "id": "offer2_link",
+              "label": "Offer Link (optional)"
+            },
+            {
+              "type": "header",
+              "content": "Offer 3"
+            },
+            {
+              "type": "select",
+              "id": "offer3_icon",
+              "label": "Icon",
+              "options": [
+                {"value": "none", "label": "None"},
+                {"value": "gift", "label": "Gift"},
+                {"value": "truck", "label": "Truck (Shipping)"},
+                {"value": "globe", "label": "Globe (International)"},
+                {"value": "tag", "label": "Tag (Sale)"},
+                {"value": "star", "label": "Star"},
+                {"value": "heart", "label": "Heart"},
+                {"value": "custom", "label": "Custom SVG"}
+              ],
+              "default": "globe"
+            },
+            {
+              "type": "html",
+              "id": "offer3_custom_icon_svg",
+              "label": "Custom SVG Icon Code",
+              "info": "Paste custom SVG HTML code here if 'Custom SVG' is selected above."
+            },
+            {
+              "type": "text",
+              "id": "offer3_title",
+              "label": "Offer Title / Heading",
+              "default": "50% OFF"
+            },
+            {
+              "type": "text",
+              "id": "offer3_title_mobile",
+              "label": "Offer Title / Heading for Mobile (Optional)",
+              "info": "If left blank, the desktop title will be used."
+            },
+            {
+              "type": "text",
+              "id": "offer3_subtitle",
+              "label": "Offer Subtitle",
+              "default": "International Shipping"
+            },
+            {
+              "type": "text",
+              "id": "offer3_subtitle_mobile",
+              "label": "Offer Subtitle for Mobile (Optional)",
+              "info": "If left blank, the desktop subtitle will be used."
+            },
+            {
+              "type": "url",
+              "id": "offer3_link",
+              "label": "Offer Link (optional)"
+            },
+            {
+              "type": "header",
+              "content": "Offer 4"
+            },
+            {
+              "type": "select",
+              "id": "offer4_icon",
+              "label": "Icon",
+              "options": [
+                {"value": "none", "label": "None"},
+                {"value": "gift", "label": "Gift"},
+                {"value": "truck", "label": "Truck (Shipping)"},
+                {"value": "globe", "label": "Globe (International)"},
+                {"value": "tag", "label": "Tag (Sale)"},
+                {"value": "star", "label": "Star"},
+                {"value": "heart", "label": "Heart"},
+                {"value": "custom", "label": "Custom SVG"}
+              ],
+              "default": "none"
+            },
+            {
+              "type": "html",
+              "id": "offer4_custom_icon_svg",
+              "label": "Custom SVG Icon Code",
+              "info": "Paste custom SVG HTML code here if 'Custom SVG' is selected above."
+            },
+            {
+              "type": "text",
+              "id": "offer4_title",
+              "label": "Offer Title / Heading"
+            },
+            {
+              "type": "text",
+              "id": "offer4_title_mobile",
+              "label": "Offer Title / Heading for Mobile (Optional)",
+              "info": "If left blank, the desktop title will be used."
+            },
+            {
+              "type": "text",
+              "id": "offer4_subtitle",
+              "label": "Offer Subtitle"
+            },
+            {
+              "type": "text",
+              "id": "offer4_subtitle_mobile",
+              "label": "Offer Subtitle for Mobile (Optional)",
+              "info": "If left blank, the desktop subtitle will be used."
+            },
+            {
+              "type": "url",
+              "id": "offer4_link",
+              "label": "Offer Link (optional)"
+            }
+          ]
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}

@@ -1,0 +1,1009 @@
+<link rel="preconnect" href=" {{ 'testimonials.css' | asset_url}}" crossorigin>
+{{ 'testimonials.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign settings = section.settings
+  assign sid = section.id
+  assign layout = section.settings.layout
+  assign arrows = section.settings.arrows
+  assign dots = section.settings.dots
+  assign visible = section.settings.visible
+  assign widescreen = section.settings.widescreen
+  assign desktop = section.settings.desktop
+  assign laptop = section.settings.laptop
+  assign notebook = section.settings.notebook
+  assign tablet = section.settings.tablet
+  assign landscape = section.settings.landscape
+  assign portrait = section.settings.portrait
+  assign mobile = section.settings.mobile
+  assign padding = section.settings.padding
+%}
+{%- for i in (1..1) -%}
+  {%- if section.settings.hidden %}{% break %}{% endif -%}
+  <section id="laber_{{sid}}">
+    {% if section.settings.title != blank %}
+      <div class="wrap_title style2 {{ section.settings.text_size }}">
+        {% if section.settings.subtitle != blank %}<div class="h3 section-subtitle alo-text-transform" style="--alo-text-transform:{{ section.settings.text_transform }}">{{section.settings.subtitle}}</div>{% endif %}  
+        
+        <h3 class="section-title alo-text-transform" style="--alo-text-transform:{{ section.settings.text_transform }}">
+          {{ section.settings.title }}
+        </h3>
+        {% if section.settings.content != blank %}
+          <div class="content">{{ section.settings.content }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+    <div class="container {%if layout == 'full-width' %}{{layout}}{%endif%}">
+      <div class="quotes_wrapper {{section.settings.style}}">
+        {%- if section.blocks.size > 0 -%}
+          {% assign index = 0 %}
+          {% include 'grid-slider', settings: settings %}
+          <div class="content_section slick-carousel">
+            <div
+              class="grid-slider js_carousel collection-slider laber-slick-carousel {%if sett_equal%}{{image_ratio}} {%endif%}"
+              {{ gridSlider }}
+              data-mobile="{{ mobile }}"
+              data-portrait="{{ portrait }}"
+              data-landscape="{{ landscape }}"
+              data-tablet="{{ tablet }}"
+              data-notebook="{{ notebook }}"
+              data-laptop="{{ laptop }}"
+              data-desktop="{{ desktop }}"
+              data-widescreen="{{ widescreen }}"
+              data-visible="{{ visible }}"
+              data-spacing="{{ padding | plus: padding }}"
+              style="--perload-gap: {{ padding | plus: padding }}px"
+              data-append-Arrows=".arrows_{{sid}}"
+              data-append-Dots=".dots_{{sid}}"
+            >
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'quote' -%}
+                    <div class="post-item quote_slide">
+                      <div class="quote_content">
+                        {% comment %} <div class="testimonial_{{index}} testimonial_avatar">
+                          {%- if block.settings.image != blank -%}
+                            {% assign image = block.settings.image %}
+                            <div class="quote_avatar {% if forloop.first%} active {% endif %}">
+                              <div class="images-card w-full h-full overflow-hidden">
+                                  {% render 'responsive-image', image: image, border:border ,aspect_ratio:aspect_ratio, image_class: 'w-full h-full',url: url %}
+                              </div>
+                            </div>
+                          {%- else -%}
+                            <div class="quote_avatar {% if forloop.first%} active {% endif %}">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="background:#e2e8f0; width: 100%; height: 100%; padding: 22%; box-sizing: border-box; border-radius: 50%;">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                              </svg>
+                            </div>
+                          {%- endif -%}
+                          {% assign index = index | plus: 1 %}
+                          {% comment %}
+                            <div class="quote_icon">
+                              <svg viewBox="0 0 48.97 51.02"><path d="M 7.998,13.118c0,1.69, 1.32,3.060, 2.946,3.060c 0.522,0, 1.004-0.152, 1.43-0.4 c-0.146,1.636-0.97,4.022-3.99,6.454c-0.422,0.342-0.5,0.974-0.172,1.412c 0.192,0.256, 0.478,0.39, 0.766,0.39 c 0.208,0, 0.416-0.068, 0.594-0.212c 3.706-2.99, 4.632-6.062, 4.756-8.114C 14.54,13.084, 13.744,11.704, 13.016,10.984 C 12.95,10.914, 12.888,10.838, 12.814,10.776C 12.64,10.628, 12.484,10.524, 12.348,10.446C 12.342,10.442, 12.338,10.436, 12.332,10.434 c-0.010-0.006-0.020-0.008-0.030-0.012C 12.104,10.312, 11.962,10.26, 11.962,10.26l 0.010,0.024C 11.65,10.152, 11.312,10.058, 10.944,10.058 C 9.316,10.058, 7.998,11.428, 7.998,13.118zM 17.694,13.118c0,1.69, 1.318,3.060, 2.946,3.060c 0.522,0, 1.004-0.152, 1.43-0.4 c-0.146,1.636-0.97,4.022-3.99,6.454c-0.424,0.342-0.5,0.974-0.172,1.412c 0.192,0.256, 0.478,0.39, 0.766,0.39 c 0.208,0, 0.416-0.068, 0.594-0.212c 3.706-2.99, 4.632-6.062, 4.756-8.114c 0.212-2.624-0.586-4.004-1.312-4.724 c-0.068-0.070-0.13-0.146-0.204-0.208c-0.174-0.148-0.33-0.252-0.466-0.33c-0.006-0.004-0.010-0.008-0.016-0.012 c-0.010-0.006-0.020-0.008-0.030-0.012c-0.198-0.108-0.34-0.162-0.34-0.162l 0.010,0.024c-0.322-0.132-0.662-0.226-1.028-0.226 C 19.012,10.058, 17.694,11.428, 17.694,13.118z"></path></svg></div>
+                          {% endcomment %}
+                        </div> {% endcomment %}
+                        {% if section.settings.style == 'style1' %}
+                          <div class="quote_author">{{ block.settings.title }}</div>
+                          <div class="flex flex-wrap alo-gap" style="--alo-gap:10px;">
+                            {%- if block.settings.rating >= 1 -%}
+                              {%- case block.settings.rating -%}
+                                {%- when 1 -%}
+                                  {% assign class = ', _outline,_outline,_outline,_outline,dn' %}
+                                {%- when 1.5 -%}
+                                  {% assign class = ',_half pr,_outline,_outline,_outline,_outline' %}
+                                {%- when 2 -%}
+                                  {% assign class = ',, _outline,_outline,_outline,dn' %}
+                                {%- when 2.5 -%}
+                                  {% assign class = ',,_half pr,_outline,_outline,_outline' %}
+                                {%- when 3 -%}
+                                  {% assign class = ',,, _outline,_outline,dn' %}
+                                {%- when 3.5 -%}
+                                  {% assign class = ',,,_half pr,_outline,_outline' %}
+                                {%- when 4 -%}
+                                  {% assign class = ',,,, _outline,dn' %}
+                                {%- when 4.5 -%}
+                                  {% assign class = ',,,,_half pr,_outline' %}
+                                {%- else -%}
+                                  {% assign class = ',,,,,dn' %}
+                              {%- endcase -%}
+                              {% assign arr = class | split: ',' %}
+                              <div class="quote_rating cra rating_{{block.settings.rating}}">
+                                <i class="icon-star{{arr[0]}}"></i>
+                                <i class="icon-star{{arr[1]}}"></i>
+                                <i class="icon-star{{arr[2]}}"></i>
+                                <i class="icon-star{{arr[3]}}"></i>
+                                <i class="icon-star{{arr[4]}}"></i>
+                              </div>
+                            {%- endif -%}
+                            <div class="quote_address">{{ block.settings.address }}</div>
+                          </div>
+                          <div class="cms_content_quote">
+                            <div class="quote_text_container">
+                              {{ block.settings.content }}
+                            </div>
+                          </div>
+                        {% else %}
+                          <div class="cms_content_quote">
+                            <div class="quote_text_container">
+                              {{ block.settings.content }}
+                            </div>
+                          </div>
+                          {%- if block.settings.rating >= 1 -%}
+                            {%- case block.settings.rating -%}
+                              {%- when 1 -%}
+                                {% assign class = ', _outline,_outline,_outline,_outline,dn' %}
+                              {%- when 1.5 -%}
+                                {% assign class = ',_half pr,_outline,_outline,_outline,_outline' %}
+                              {%- when 2 -%}
+                                {% assign class = ',, _outline,_outline,_outline,dn' %}
+                              {%- when 2.5 -%}
+                                {% assign class = ',,_half pr,_outline,_outline,_outline' %}
+                              {%- when 3 -%}
+                                {% assign class = ',,, _outline,_outline,dn' %}
+                              {%- when 3.5 -%}
+                                {% assign class = ',,,_half pr,_outline,_outline' %}
+                              {%- when 4 -%}
+                                {% assign class = ',,,, _outline,dn' %}
+                              {%- when 4.5 -%}
+                                {% assign class = ',,,,_half pr,_outline' %}
+                              {%- else -%}
+                                {% assign class = ',,,,,dn' %}
+                            {%- endcase -%}
+                            {% assign arr = class | split: ',' %}
+                            <div class="quote_rating cra rating_{{block.settings.rating}}">
+                              <i class="icon-star{{arr[0]}}"></i>
+                              <i class="icon-star{{arr[1]}}"></i>
+                              <i class="icon-star{{arr[2]}}"></i>
+                              <i class="icon-star{{arr[3]}}"></i>
+                              <i class="icon-star{{arr[4]}}"></i>
+                            </div>
+                          {%- endif -%}
+                          <div class="quote_author">{{ block.settings.title }}</div>
+                          <div class="quote_address">{{ block.settings.address }}</div>
+                        {% endif %}
+                      </div>
+                    </div>
+                {% endcase %}
+              {%- endfor -%}
+            </div>
+            {% if dots %}
+              <div class="laber_append_dots dots_{{sid}}"></div>
+            {% endif %}
+            {% if arrows %}
+              <div class="laber_append_arrows arrows_{{sid}}"></div>
+            {% endif %}
+          </div>
+        {%- endif -%}
+      </div>
+      {% if section.settings.show_text_bottom %}
+        <div class="text_bottom ">{{ section.settings.text_bottom }}</div>
+      {% endif %}
+    </div>
+  </section>
+  <script>
+    (function() {
+      function initReadMoreLess() {
+        var containers = document.querySelectorAll('#laber_{{sid}} .quote_text_container');
+        containers.forEach(function(container) {
+          if (container.dataset.originalHtml) return;
+          
+          var originalHtml = container.innerHTML;
+          var text = container.innerText.trim();
+          var limit = 140; // Truncate at around 140 characters
+          
+          if (text.length > limit) {
+            var truncated = text.substring(0, limit);
+            var lastSpace = truncated.lastIndexOf(' ');
+            if (lastSpace > limit - 20) {
+              truncated = truncated.substring(0, lastSpace);
+            }
+            
+            container.dataset.originalHtml = originalHtml;
+            container.dataset.truncatedHtml = '<p>' + truncated + '... <span class="quote_toggle_inline">See more</span></p>';
+            
+            var expandedHtml = originalHtml;
+            if (expandedHtml.endsWith('</p>')) {
+              expandedHtml = expandedHtml.substring(0, expandedHtml.length - 4) + ' <span class="quote_toggle_inline">See less</span></p>';
+            } else if (expandedHtml.endsWith('</p>\n') || expandedHtml.endsWith('</p>\r\n')) {
+              expandedHtml = expandedHtml.trim();
+              expandedHtml = expandedHtml.substring(0, expandedHtml.length - 4) + ' <span class="quote_toggle_inline">See less</span></p>';
+            } else {
+              expandedHtml += ' <span class="quote_toggle_inline">See less</span>';
+            }
+            container.dataset.expandedHtml = expandedHtml;
+            
+            container.innerHTML = container.dataset.truncatedHtml;
+          }
+        });
+      }
+
+      function initTestimonialsCarousel() {
+        initReadMoreLess();
+        var carousels = document.querySelectorAll('#laber_{{sid}} .js_carousel');
+        carousels.forEach(function(carousel) {
+          if (typeof jQuery !== 'undefined' && jQuery.fn.slick) {
+            var $carousel = jQuery(carousel);
+            
+            function configureCenterMode() {
+              try {
+                if ($carousel.hasClass('slick-initialized')) {
+                  $carousel.slick('slickSetOption', {
+                    centerMode: true,
+                    centerPadding: '0px'
+                  }, true);
+                }
+              } catch (e) {
+                console.error("Error setting Slick options:", e);
+              }
+            }
+
+            if ($carousel.hasClass('slick-initialized')) {
+              configureCenterMode();
+              initReadMoreLess();
+            } else {
+              $carousel.on('init', function() {
+                configureCenterMode();
+                initReadMoreLess();
+              });
+            }
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTestimonialsCarousel);
+      } else {
+        initTestimonialsCarousel();
+      }
+
+      // Click event delegation for inline See more/less buttons
+      var sectionEl = document.getElementById('laber_{{sid}}');
+      if (sectionEl && !sectionEl.dataset.hasReadMoreListener) {
+        sectionEl.addEventListener('click', function(e) {
+          if (e.target && e.target.classList.contains('quote_toggle_inline')) {
+            var btn = e.target;
+            var container = btn.closest('.quote_text_container');
+            if (container) {
+              var isCollapsed = btn.textContent.trim().toLowerCase() === 'see more';
+              
+              if (isCollapsed) {
+                container.innerHTML = container.dataset.expandedHtml;
+              } else {
+                container.innerHTML = container.dataset.truncatedHtml;
+              }
+              
+              // Let slick slider know to update position/height
+              var carousel = sectionEl.querySelector('.js_carousel');
+              if (carousel && typeof jQuery !== 'undefined' && jQuery.fn.slick) {
+                var $carousel = jQuery(carousel);
+                setTimeout(function() {
+                  try {
+                    $carousel.slick('setPosition');
+                  } catch (err) {
+                    console.error("Error setting Slick position:", err);
+                  }
+                }, 50);
+              }
+            }
+          }
+        });
+        sectionEl.dataset.hasReadMoreListener = "true";
+      }
+
+      document.addEventListener('shopify:section:load', function(event) {
+        if (event.detail.sectionId === '{{sid}}') {
+          initTestimonialsCarousel();
+        }
+      });
+    })();
+  </script>
+{%- endfor -%}
+{% style %}
+  /* Scoped section layout width */
+  @media (min-width: 1200px){
+  	#laber_{{sid}} .content_section{
+  		width: {{section.settings.width_c}}%;
+      	margin: 0 auto;
+  	}
+  }
+
+  /* Scoped section background override matching 2nd image background */
+  #laber_{{sid}} {
+    background-color: #f6f8fa !important; /* Soft light grey/blue background */
+    padding: 60px 0 !important;
+    overflow: hidden !important; /* Prevent horizontal page scrollbar */
+  }
+
+  #laber_{{sid}} .container {
+    overflow: visible !important; /* Allow arrows and scaled cards to overflow container width */
+  }
+
+  #laber_{{sid}} .content_section,
+  #laber_{{sid}} .slick-carousel {
+    overflow: visible !important; /* Prevent arrows from being cropped in half */
+  }
+
+  /* Center Mode & Scale Animations */
+  #laber_{{sid}} .slick-list {
+    overflow: visible !important;
+    padding-top: 30px !important;
+    padding-bottom: 20px !important;
+  }
+
+  /* Ensure navigation arrows are on top of cards */
+  #laber_{{sid}} .slick-prev,
+  #laber_{{sid}} .slick-next {
+    z-index: 15 !important;
+  }
+
+  /* Base styling for all testimonial cards */
+  #laber_{{sid}} .quote_content {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 45px 35px 35px 35px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04) !important;
+    margin: 15px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    min-height: 280px; /* Ensures equal height look */
+    justify-content: center;
+  }
+
+  /* Giant decorative quotation marks matching 2nd image style */
+  #laber_{{sid}} .cms_content_quote {
+    position: relative !important;
+    padding: 0 35px !important; /* Generous side padding to prevent text collision */
+    margin: 25px 0 !important; /* Generous top/bottom margin to prevent collision with avatar/rating */
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box !important;
+  }
+
+  #laber_{{sid}} .cms_content_quote::before {
+    content: "“" !important;
+    font-family: "Georgia", serif !important;
+    font-size: 75px !important;
+    line-height: 1 !important;
+    color: #ebedf0 !important; /* Softer, lighter shade to avoid visually colliding with text */
+    position: absolute !important;
+    top: -25px !important;
+    left: 0px !important;
+    z-index: -1 !important;
+    font-weight: bold !important;
+  }
+
+  #laber_{{sid}} .cms_content_quote::after {
+    content: "”" !important;
+    font-family: "Georgia", serif !important;
+    font-size: 75px !important;
+    line-height: 1 !important;
+    color: #ebedf0 !important; /* Softer, lighter shade */
+    position: absolute !important;
+    bottom: -55px !important;
+    right: 5px !important;
+    z-index: -1 !important;
+    font-weight: bold !important;
+  }
+
+  #laber_{{sid}} .cms_content_quote p {
+    font-size: 15px !important;
+    line-height: 26px !important;
+    color: #4a5568 !important;
+    font-style: italic !important;
+    position: relative !important;
+    z-index: 2 !important;
+    margin: 0 !important;
+  }
+
+  /* Style for author name and position */
+  #laber_{{sid}} .quote_author {
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    letter-spacing: 0.5px !important;
+    margin-top: 15px !important;
+    margin-bottom: 2px !important;
+  }
+
+  #laber_{{sid}} .quote_address {
+    color: #718096 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+
+  /* Star ratings spacing */
+  #laber_{{sid}} .quote_rating {
+    margin-top: 5px !important;
+    margin-bottom: 0px !important;
+  }
+
+  /* Base styling for avatar containers */
+  #laber_{{sid}} .quote_avatar {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50% !important;
+    border: 4px solid #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    overflow: hidden !important;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    margin-bottom: 5px !important; /* Spacing below the avatar */
+  }
+
+  /* Non-center cards layout scale for larger screens */
+  @media (min-width: 576px) {
+    #laber_{{sid}} .slick-slide .quote_content {
+      transform: scale(0.9) !important;
+      opacity: 0.75 !important;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03) !important;
+    }
+
+    /* Style for center slide (via slick-center or the 2nd active slide in standard layout) */
+    #laber_{{sid}} .slick-slide.slick-center .quote_content,
+    #laber_{{sid}} .slick-slide.slick-active + .slick-slide.slick-active .quote_content {
+      transform: scale(1.03) !important;
+      opacity: 1 !important;
+      z-index: 2 !important;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
+    }
+
+    /* Override the 3rd active slide back to small scale */
+    #laber_{{sid}} .slick-slide.slick-active + .slick-slide.slick-active + .slick-slide.slick-active .quote_content {
+      transform: scale(0.9) !important;
+      opacity: 0.75 !important;
+      z-index: 1 !important;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03) !important;
+    }
+
+    /* Scale up the avatar inside the center slide */
+    #laber_{{sid}} .slick-slide.slick-center .quote_avatar,
+    #laber_{{sid}} .slick-slide.slick-active + .slick-slide.slick-active .quote_avatar {
+      transform: scale(1.1) !important;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12) !important;
+    }
+
+    /* Override the 3rd active slide's avatar back to normal size */
+    #laber_{{sid}} .slick-slide.slick-active + .slick-slide.slick-active + .slick-slide.slick-active .quote_avatar {
+      transform: scale(1) !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    }
+  }
+
+  /* Custom Dots style (Pill shape for active) */
+  #laber_{{sid}} .slick-dots {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 0 0;
+    gap: 8px;
+  }
+  
+  #laber_{{sid}} .slick-dots li {
+    margin: 0;
+    padding: 0;
+  }
+
+  #laber_{{sid}} .slick-dots li button {
+    border: none;
+    background: #cbd5e0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    font-size: 0;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  #laber_{{sid}} .slick-dots li.slick-active button {
+    background: #4a5568;
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* Mobile optimization for screen sizes under 576px */
+  @media (max-width: 575px) {
+    #laber_{{sid}} {
+      padding: 30px 0 !important;
+    }
+    #laber_{{sid}} .quote_content {
+      padding: 35px 15px 25px 15px !important;
+      margin: 10px 8px !important;
+      min-height: auto !important;
+    }
+    #laber_{{sid}} .cms_content_quote {
+      padding: 0 15px !important;
+      margin: 15px 0 !important;
+    }
+    #laber_{{sid}} .cms_content_quote::before {
+      font-size: 55px !important;
+      top: -20px !important;
+      left: -5px !important;
+    }
+    #laber_{{sid}} .cms_content_quote::after {
+      font-size: 55px !important;
+      bottom: -35px !important;
+      right: -5px !important;
+    }
+    #laber_{{sid}} .cms_content_quote p {
+      font-size: 14px !important;
+      line-height: 22px !important;
+    }
+    #laber_{{sid}} .quote_avatar {
+      width: 70px !important;
+      height: 70px !important;
+    }
+    #laber_{{sid}} .quote_author {
+      margin-top: 10px !important;
+    }
+     /* Center Mode & Scale Animations */
+    #laber_{{sid}} .slick-list {
+      padding-top: 20px !important;
+      padding-bottom: 20px !important;
+    }
+    .wrap_title.style2{
+      margin-bottom:15px;
+    }
+  }
+
+  /* --- Premium Read More / Read Less Styles (Inline) --- */
+  #laber_{{sid}} .quote_text_container {
+    width: 100%;
+  }
+
+  #laber_{{sid}} .quote_toggle_inline {
+    color: #2d3748 !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    margin-left: 4px !important;
+    text-decoration: underline !important;
+    font-size: 14px !important;
+    display: inline-block !important;
+    transition: color 0.2s ease !important;
+  }
+
+  #laber_{{sid}} .quote_toggle_inline:hover {
+    color: #000000 !important;
+  }
+{% endstyle %}
+{%- render 'section_style' -%}
+{%- schema -%}
+{
+  "name": "Testimonials",
+  "class": "type_testimonials type_carousel",
+  "max_blocks": 30,
+  "settings": [
+    {
+      "type": "header",
+      "content": "== Title Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Happy Customers Say!"
+    },
+    {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Sub Heading",
+        "default": "Explore The Lookbook"
+      },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content",
+      "default": "Commodo sociosqu venenatis cras dolor sagittis integer luctus maecenas."
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "default": "medium",
+      "options": [
+        {
+          "value": "small",
+          "label": "small"
+       },
+       {
+          "value": "medium",
+          "label": "Medium"
+       },
+       {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "label": "Text size"
+    },
+    {
+            "type": "select",
+            "id": "text_transform",
+            "default": "none",
+            "options": [
+             {
+                "value": "none",
+                "label": "None"
+             },
+             {
+                "value": "capitalize",
+                "label": "Capitalize"
+             },
+             {
+                "value": "lowercase",
+                "label": "Lowercase"
+             },
+             {
+                "value": "uppercase",
+                "label": "Uppercase"
+              }
+            ],
+            "label": "Text transform:"
+          },
+    {
+      "type": "checkbox",
+      "id": "show_text_bottom",
+      "label": "Show text bottom",
+      "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "text_bottom",
+      "label": "Text",
+      "default": "<p>Trusted customers are our happiness. Contact us.<p>"
+    },
+ {
+      "type": "header",
+      "content": "== Design Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "hidden",
+      "label": "Hidden Section?",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+       {
+          "value": "container",
+          "label": "Container"
+       },
+       {
+          "value": "full-width",
+          "label": "Full Width"
+        }
+      ],
+      "label": "Layout"
+    },
+    {
+    "type": "range",
+    "id": "width_c",
+    "label": "Width container",
+    "min": 0,
+    "max": 100,
+    "step": 10,
+    "unit": "%",
+    "default": 100
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "options": [
+       {
+          "value": "style1",
+          "label": "Style 1"
+       },
+       {
+          "value": "style2",
+          "label": "Style 2"
+        }
+      ],
+      "label": "Style"
+    },
+
+    {
+      "type": "header",
+      "content": "---- Slider Show Collection ----",
+      "info": "Refer to the attribute values [here](httpss://kenwheeler.github.io/slick)"
+  },
+  {
+      "type": "checkbox",
+      "id": "use-slider",
+      "label": "Use slider?",
+      "default": true
+  },
+  {
+      "type": "range",
+      "id": "slides-To-Scroll",
+      "label": "Slide to scroll",
+      "info": "The number of items slide to scroll",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 1
+  },
+  {
+      "type": "range",
+      "id": "visible",
+      "label": "Columns in Visible",
+"info": "Item(s) in screen ( Size >= 1920 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3
+  },
+  {
+      "type": "range",
+      "id": "widescreen",
+      "label": "Columns in Widescreen",
+"info": "Item(s) in screen ( 1366 <= Size < 1920 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3
+  },
+  {
+      "type": "range",
+      "id": "desktop",
+      "label": "Columns in Desktop",
+"info":  "Item(s) in screen ( 1200 <= Size < 1480 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3
+  },
+  {
+      "type": "range",
+      "id": "laptop",
+      "label": "Columns in Laptop",
+"info": "Item(s) in screen ( 992 <= Size < 1200 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3
+  },
+  {
+      "type": "range",
+      "id": "notebook",
+      "label": "Columns in Notebook",
+"info": "Item(s) in screen ( 768 <= Size < 992 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3
+  },
+  {
+      "type": "range",
+      "id": "tablet",
+      "label": "Columns in Tablet",
+"info": "Item(s) in screen ( 576 <= Size < 768 )",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "col",
+      "default": 3
+  },
+  {
+      "type": "range",
+      "id": "landscape",
+      "label": "Columns in Landscape",
+"info": "Item(s) in screen ( 480 <= Size < 576 )",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "col",
+      "default": 2
+  },
+  {
+      "type": "range",
+      "id": "portrait",
+      "label": "Columns in Portrait",
+"info": "Item(s) in screen ( 360 < Size < 480 )",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "col",
+      "default": 2
+  },
+  {
+      "type": "range",
+      "id": "mobile",
+      "label": "Columns in Mobile",
+"info": "Item(s) in screen ( Size < = 360 )",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "col",
+      "default": 1
+  },
+  {
+      "type": "range",
+      "id": "rows",
+      "label": "Rows Slider",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "unit": "col",
+      "default": 1
+  },
+  {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+  },
+  {
+      "type": "text",
+      "id": "speed",
+      "label": "Speed",
+      "default": "300",
+      "info": "Autoplay Speed in milliseconds"
+  },
+  {
+      "type": "text",
+      "id": "autoplay-Speed",
+      "label": "Auto Play Speed",
+      "default": "3000",
+      "info": "Autoplay Speed in milliseconds"
+  },
+  {
+      "type": "checkbox",
+      "id": "arrows",
+      "label": "Arrows",
+      "default": true
+  },
+  {
+      "type": "checkbox",
+      "id": "fade",
+      "label": "Fade",
+      "default": false,
+      "info": "Only use for 1 column"
+  },
+  {
+      "type": "checkbox",
+      "id": "center-Mode",
+      "label": "Center Mode",
+      "default": true
+  },
+  {
+      "type": "checkbox",
+      "id": "adaptive-Height",
+      "label": "Adaptive Height",
+      "default": false
+  },
+  {
+      "type": "checkbox",
+      "id": "dots",
+      "label": "Dots",
+      "default": true
+  },
+  {
+      "type": "checkbox",
+      "id": "infinite",
+      "label": "Infinite",
+      "default": true
+  },
+  {
+      "type": "range",
+      "id": "padding",
+      "label": "padding",
+"info": "Distance between items",
+      "min": 0,
+      "max": 15,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+  },
+  {
+      "type": "checkbox",
+      "id": "vertical",
+      "label": "Vertical",
+      "default": false
+  },
+    {
+    "type": "image_picker",
+    "id": "bg_image",
+    "label": "Background images"
+    },
+    {
+    "type": "color",
+    "id": "cl_bg",
+    "label": "Background color",
+    "default": "#fff"
+    },
+ {
+      "type": "header",
+      "content": "== Setting PC",
+"info":"Margin"
+    },
+    {
+      "type": "text",
+      "id": "mg",
+      "label": "Margin",
+      "info":"Margin top, margin right, margin bottom, margin left. If you not use to blank"
+    },
+    {
+      "type": "text",
+      "id": "pd",
+      "label": "Padding",
+      "info":"Padding top, padding right, padding bottom, padding left. If you not use to blank"
+    },
+   {
+      "type": "header",
+      "content": "== Design Mobile Options"
+    },
+    {
+      "type": "text",
+      "id": "mg_mb",
+      "label": "Margin"
+    },
+    {
+      "type": "text",
+      "id": "pd_mb",
+      "label": "Padding"
+    }
+
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Author's image",
+          "info": "200x200 recommend"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Text",
+          "default": "<p>I love my lash tint! I don't have extremely blonde lashes, but I do like that they can be even darker than they are. It makes my eyes stand out more and I love the way it looks!</p>"
+        },
+        {
+           "type": "text",
+           "id": "title",
+           "label": "Author",
+           "default": "Alexander Ball"
+        },
+        {
+           "type": "text",
+           "id": "address",
+           "label": "Address",
+     "default":"New York"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "label": "Rating",
+          "info": "Set less than '1' to disable Rating.",
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Text",
+      "blocks": [{"type": "quote"},{"type": "quote"},{ "type": "quote"},{ "type": "quote"},{ "type": "quote"},{ "type": "quote"},{ "type": "quote"},{ "type": "quote"}]
+    }
+  ]
+}
+{%- endschema -%}

@@ -1,0 +1,13 @@
+<img
+    {% if settings.product_info_enable_zoom %} data-style-zoom ="{{settings.type_zoom}}" data-zoom-image="{{ media.src | img_url: '1920x' }}" {% endif %} 
+    srcset="{%- if media.preview_image.width >= 150 -%}{{ media.preview_image | image_url: width: 150 }} 150w,{%- endif -%}
+            {%- if media.preview_image.width >= 300 -%}{{ media.preview_image | image_url: width: 300 }} 300w,{%- endif -%}
+            {%- if media.preview_image.width >= 450 -%}{{ media.preview_image | image_url: width: 450 }} 450w{%- endif -%}"
+    sizes="(min-width: 750px) 120px, 80px"
+    src="{{ media.preview_image | image_url: width: 300 }}"
+    alt="{{ media.src.alt | escape }}"
+    class="main-image js-image-{{media.id }}"
+    width="{{ media.src.width }}"
+    height="{{ media.src.height }}"
+    loading="lazy"
+> 

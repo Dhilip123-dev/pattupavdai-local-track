@@ -1,0 +1,701 @@
+{% comment %}
+  Footer Benefit Section with Equal Line Height Alignment & Automatic Carousel (Mobile & Tablet)
+{% endcomment %}
+
+{%- assign sid = section.id -%}
+
+<style>
+  #footer-benefit-section-{{ sid }} {
+    background-color: {{ section.settings.bg_color | default: '#faf7f2' }};
+    padding-top: {{ section.settings.padding_top | default: 40 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 40 }}px;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-container {
+    max-width: {{ section.settings.container_max_width | default: 1410 }}px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-header-title {
+    color: {{ section.settings.heading_color | default: '#222222' }};
+    font-size: {{ section.settings.heading_font_size | default: 28 }}px;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: {{ section.settings.gap_desktop | default: 10 }}px;
+    transition: transform 0.4s ease-in-out;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-card {
+    flex: 1 1 0px;
+    min-width: 140px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 12px 8px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-card:hover {
+    transform: translateY(-3px);
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-icon-wrapper {
+    width: {{ section.settings.icon_size | default: 52 }}px;
+    height: {{ section.settings.icon_size | default: 52 }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-icon-wrapper.no-icon {
+    display: none;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-icon-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-icon-wrapper svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    color: {{ section.settings.icon_color | default: '#222222' }};
+  }
+
+  /* Equal Line Spacing & Baseline Alignment */
+  #footer-benefit-section-{{ sid }} .footer-benefit-title-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-title {
+    color: {{ section.settings.title_color | default: '#222222' }};
+    font-size: {{ section.settings.title_size | default: 15 }}px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: 0.2px;
+    text-align: center;
+    width: 100%;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-desc-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-desc {
+    color: {{ section.settings.text_color | default: '#555555' }};
+    font-size: {{ section.settings.text_size | default: 13 }}px;
+    line-height: 1.5;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* Navigation Dots for Carousel */
+  #footer-benefit-section-{{ sid }} .footer-benefit-carousel-dots {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: {{ section.settings.text_color | default: '#cccccc' }};
+    opacity: 0.4;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  #footer-benefit-section-{{ sid }} .footer-benefit-dot.active {
+    opacity: 1;
+    background-color: {{ section.settings.title_color | default: '#730449' }};
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* Responsive Carousel Styles for Tablet & Mobile */
+  @media (max-width: 1024px) {
+    {% if section.settings.enable_carousel_tablet %}
+      #footer-benefit-section-{{ sid }} .footer-benefit-slider-wrapper {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        touch-action: pan-y;
+      }
+
+      #footer-benefit-section-{{ sid }} .footer-benefit-grid {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 0;
+        will-change: transform;
+      }
+
+      #footer-benefit-section-{{ sid }} .footer-benefit-card {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 16px 15px;
+      }
+
+      #footer-benefit-section-{{ sid }} .footer-benefit-carousel-dots {
+        display: flex;
+      }
+    {% endif %}
+  }
+
+  @media (max-width: 640px) {
+    #footer-benefit-section-{{ sid }} {
+      padding-top: {{ section.settings.padding_top_mb | default: 30 }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mb | default: 30 }}px;
+    }
+
+    {% if section.settings.enable_carousel_mobile %}
+      #footer-benefit-section-{{ sid }} .footer-benefit-slider-wrapper {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        touch-action: pan-y;
+      }
+
+      #footer-benefit-section-{{ sid }} .footer-benefit-grid {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 0;
+        will-change: transform;
+      }
+
+      #footer-benefit-section-{{ sid }} .footer-benefit-card {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding: 16px 20px;
+      }
+
+      #footer-benefit-section-{{ sid }} .footer-benefit-carousel-dots {
+        display: flex;
+      }
+    {% else %}
+      #footer-benefit-section-{{ sid }} .footer-benefit-card {
+        flex: 1 1 100%;
+      }
+    {% endif %}
+  }
+</style>
+
+<section id="footer-benefit-section-{{ sid }}" class="footer-benefit-section-wrapper">
+  <div class="footer-benefit-container">
+    {% if section.settings.heading != blank %}
+      <div class="footer-benefit-header">
+        <h2 class="footer-benefit-header-title">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="footer-benefit-slider-wrapper" id="slider-wrapper-{{ sid }}">
+        <div class="footer-benefit-grid" id="benefit-grid-{{ sid }}">
+          {% for block in section.blocks %}
+            <div class="footer-benefit-card block-{{ block.id }}" {{ block.shopify_attributes }}>
+              {% if block.settings.icon_svg != blank or block.settings.icon_image != blank %}
+                <div class="footer-benefit-icon-wrapper">
+                  {% if block.settings.icon_svg != blank %}
+                    {{ block.settings.icon_svg }}
+                  {% elsif block.settings.icon_image != blank %}
+                    <img
+                      src="{{ block.settings.icon_image | image_url: width: 150 }}"
+                      srcset="{{ block.settings.icon_image | image_url: width: 100 }} 1x, {{ block.settings.icon_image | image_url: width: 200 }} 2x"
+                      alt="{{ block.settings.icon_image.alt | default: block.settings.title | escape }}"
+                      loading="lazy"
+                      width="{{ section.settings.icon_size | default: 52 }}"
+                      height="{{ section.settings.icon_size | default: 52 }}"
+                    >
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              {% if block.settings.title != blank %}
+                <div class="footer-benefit-title-wrapper">
+                  <h3 class="footer-benefit-title">{{ block.settings.title }}</h3>
+                </div>
+              {% endif %}
+
+              {% if block.settings.description != blank %}
+                <div class="footer-benefit-desc-wrapper">
+                  <div class="footer-benefit-desc">{{ block.settings.description }}</div>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="footer-benefit-carousel-dots" id="benefit-dots-{{ sid }}">
+        {% for block in section.blocks %}
+          <button type="button" class="footer-benefit-dot {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  (function() {
+    function initFooterBenefitCarousel() {
+      const wrapper = document.getElementById('slider-wrapper-{{ sid }}');
+      const grid = document.getElementById('benefit-grid-{{ sid }}');
+      const dotsContainer = document.getElementById('benefit-dots-{{ sid }}');
+      if (!wrapper || !grid) return;
+
+      const cards = grid.querySelectorAll('.footer-benefit-card');
+      const dots = dotsContainer ? dotsContainer.querySelectorAll('.footer-benefit-dot') : [];
+      if (cards.length === 0) return;
+
+      let currentIndex = 0;
+      let autoplayTimer = null;
+      let isHovered = false;
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      const autoplayEnabled = {{ section.settings.enable_autoplay | default: true }};
+      const autoplaySpeed = ({{ section.settings.autoplay_speed | default: 4 }}) * 1000;
+
+      // Equal height alignment sync for title wrappers
+      function syncTitleHeights() {
+        const titleWrappers = grid.querySelectorAll('.footer-benefit-title-wrapper');
+        if (titleWrappers.length === 0) return;
+
+        // Reset height before measuring
+        titleWrappers.forEach(el => { el.style.height = 'auto'; });
+
+        // Calculate max height
+        let maxTitleH = 0;
+        titleWrappers.forEach(el => {
+          if (el.offsetHeight > maxTitleH) {
+            maxTitleH = el.offsetHeight;
+          }
+        });
+
+        // Apply equal height across all title containers so descriptions align on same baseline line
+        if (maxTitleH > 0) {
+          titleWrappers.forEach(el => {
+            el.style.height = maxTitleH + 'px';
+          });
+        }
+      }
+
+      function getVisibleSlidesCount() {
+        const width = window.innerWidth;
+        if (width <= 640 && {{ section.settings.enable_carousel_mobile | default: true }}) {
+          return 1;
+        } else if (width <= 1024 && {{ section.settings.enable_carousel_tablet | default: true }}) {
+          return 2;
+        }
+        return cards.length;
+      }
+
+      function getMaxIndex() {
+        const visible = getVisibleSlidesCount();
+        if (visible >= cards.length) return 0;
+        return cards.length - visible;
+      }
+
+      function updateSlide(index) {
+        const maxIndex = getMaxIndex();
+        if (index > maxIndex) index = 0;
+        if (index < 0) index = maxIndex;
+        currentIndex = index;
+
+        const visible = getVisibleSlidesCount();
+        if (visible < cards.length) {
+          const slidePercent = 100 / visible;
+          grid.style.transform = `translateX(-${currentIndex * slidePercent}%)`;
+        } else {
+          grid.style.transform = 'none';
+        }
+
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+
+      function nextSlide() {
+        const maxIndex = getMaxIndex();
+        if (maxIndex === 0) return;
+        const next = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+        updateSlide(next);
+      }
+
+      function startAutoplay() {
+        if (!autoplayEnabled) return;
+        stopAutoplay();
+        autoplayTimer = setInterval(() => {
+          if (!isHovered && getMaxIndex() > 0) {
+            nextSlide();
+          }
+        }, autoplaySpeed);
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+          updateSlide(idx);
+          startAutoplay();
+        });
+      });
+
+      wrapper.addEventListener('mouseenter', () => { isHovered = true; });
+      wrapper.addEventListener('mouseleave', () => { isHovered = false; });
+
+      wrapper.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        isHovered = true;
+      }, { passive: true });
+
+      wrapper.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        isHovered = false;
+        handleSwipe();
+      }, { passive: true });
+
+      function handleSwipe() {
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) {
+            nextSlide();
+          } else {
+            updateSlide(currentIndex - 1);
+          }
+        }
+      }
+
+      window.addEventListener('resize', () => {
+        syncTitleHeights();
+        updateSlide(currentIndex);
+      });
+
+      // Synchronize equal heights on load
+      syncTitleHeights();
+      updateSlide(0);
+      startAutoplay();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFooterBenefitCarousel);
+    } else {
+      initFooterBenefitCarousel();
+    }
+
+    document.addEventListener('shopify:section:load', initFooterBenefitCarousel);
+    document.addEventListener('shopify:section:select', initFooterBenefitCarousel);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Footer Benefit Section",
+  "tag": "section",
+  "class": "shopify-section-footer-benefit",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading (Optional)"
+    },
+    {
+      "type": "header",
+      "content": "Color Customization"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FAF7F2"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Section Heading Color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "SVG Icon Color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Card Title Color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Card Description Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Typography Settings"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "label": "Container Max Width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "default": 1350
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon Size",
+      "min": 24,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title Font Size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Description Font Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "gap_desktop",
+      "label": "Desktop Item Gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Carousel Settings (Mobile & Tablet)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel_tablet",
+      "label": "Enable Carousel on Tablet (<= 1024px)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel_mobile",
+      "label": "Enable Carousel on Mobile (<= 640px)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable Automatic Carousel Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "Autoplay Speed (seconds)",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mb",
+      "label": "Mobile Padding Top",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mb",
+      "label": "Mobile Padding Bottom",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Custom SVG Icon Code",
+          "info": "Optional: Paste raw SVG HTML code if not uploading an image file."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Handpicked Fabrics"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Selected one by one for their beauty, quality and uniqueness."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer Benefit Section",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Handpicked Fabrics",
+            "description": "Selected one by one for their beauty, quality and uniqueness."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Timeless Designing",
+            "description": "Rooted in tradition, designed for today."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Precise Cutting & Stitching",
+            "description": "Crafted with attention to detail for a beautiful fit and finish."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Strict Quality Check",
+            "description": "Every piece inspected before it reaches you."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Careful Packing",
+            "description": "Neatly packed to preserve its beauty until it arrives."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Safe & Timely Delivery",
+            "description": "Delivered to your doorstep with care."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

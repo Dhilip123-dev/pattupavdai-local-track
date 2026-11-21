@@ -1,0 +1,42 @@
+
+{%- assign default_widths = '320, 375, 550, 750, 990, 1100, 1500' -%}
+{%- assign widths = widths | default: default_widths -%}
+{%- assign sizes = sizes | default: '100vw' -%}
+
+{%- assign image_height = image.width | divided_by: image.aspect_ratio -%}
+
+{%- assign base_width = fallback_width | default: 1100 | plus: 0 -%}
+{%- if image.width and image.width < base_width -%}
+  {%- assign base_width = image.width -%}
+{%- endif -%}
+
+{%- capture style -%}
+  {% assign ratio = aspect_ratio | default: image.aspect_ratio %}
+  --ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;
+{%- endcapture -%}
+
+<div
+  data-image-id="{{ image.id }}"
+  class="alo-image overflow-hidden alo-border-radius ratio {{ image_class }}"
+  style="--alo-border-radius:{{ border }}px; {{ style | strip | strip_newlines }}"
+>
+  {% if url %}
+    <a class="block h-full" href="{{ url }}" target="{{ open_link }}" title="" aria-label="link">
+  {% endif %}
+
+    {{
+      image
+      | image_url: width: base_width
+      | image_tag:
+        loading: 'lazy',
+        width: image.width,
+        height: image_height,
+        class: image_class,
+        sizes: sizes,
+        widths: widths
+    }}
+
+  {% if url %}
+    </a>
+  {% endif %}
+</div>

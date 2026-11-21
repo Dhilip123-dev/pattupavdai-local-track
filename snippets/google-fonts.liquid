@@ -1,0 +1,29 @@
+{%- capture google-font -%}
+{%- assign bd_font_name = settings.bd_google_font | default: 'Jost' -%}
+{%- assign bd_google_font = bd_font_name | replace: " ", "+" -%}
+  {%- assign bd_font_size = settings.bd_font_size -%}
+{%- assign bd_font_weight = settings.bd_font_weight -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{bd_google_font}}:wght@400;500;600;700&display=swap" rel="stylesheet">
+{%- assign h1_font_weight = settings.h1_font_weight -%}
+{%- assign h2_font_weight = settings.h2_font_weight -%}
+{%- assign h3_font_weight = settings.h3_font_weight -%}
+{%- assign h4_font_weight = settings.h4_font_weight -%}
+{%- assign h5_font_weight = settings.h5_font_weight -%}
+{%- assign h6_font_weight = settings.h6_font_weight -%}
+{%style%}
+  :root {
+    --font-family: {{bd_font_name}}, sans-serif;
+    --font-size: {{bd_font_size}};
+	--font-weight: {{bd_font_weight}};
+    --h1-font-weight:{{h1_font_weight}};
+    --h2-font-weight:{{h2_font_weight}};
+    --h3-font-weight:{{h3_font_weight}};
+    --h4-font-weight:{{h4_font_weight}};
+    --h5-font-weight:{{h5_font_weight}};
+    --h6-font-weight:{{h6_font_weight}};
+  }
+{%endstyle%}
+{%- endcapture -%}
+{{ google-font | strip_newlines | remove:"  "}}

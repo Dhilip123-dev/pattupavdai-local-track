@@ -1,0 +1,959 @@
+{%- liquid
+  assign show_section = false
+
+  if section.settings.show_on_product and request.page_type == 'product'
+    assign show_section = true
+  elsif section.settings.show_on_collection and request.page_type == 'collection'
+    assign show_section = true
+  elsif section.settings.show_on_cart and request.page_type == 'cart'
+    assign show_section = true
+  elsif section.settings.show_on_page and request.page_type == 'page'
+    assign show_section = true
+  elsif section.settings.show_on_blog and request.page_type == 'blog' or request.page_type == 'article'
+    assign show_section = true
+  elsif section.settings.show_on_search and request.page_type == 'search'
+    assign show_section = true
+  endif
+
+  if request.design_mode
+    assign show_section = true
+  endif
+-%}
+
+{% if show_section %}
+{% style %}
+  #InlineCountdown-{{ section.id }} {
+    padding: 30px 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  #InlineCountdown-{{ section.id }} .inline-countdown-card {
+    background-color: {{ section.settings.color_bg }};
+    border: {{ section.settings.border_width }}px solid {{ section.settings.color_border }};
+    border-radius: {{ section.settings.border_radius }}px;
+    padding: {{ section.settings.card_padding_desktop }}px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+  }
+
+  /* Timer Column */
+  .inline-countdown__timer-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-shrink: 0;
+  }
+
+  .inline-countdown__title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .inline-countdown__title-icon-wrapper {
+    width: 22px;
+    height: 22px;
+    color: {{ section.settings.color_timer_title }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .inline-countdown__title-icon {
+    width: 100%;
+    height: 100%;
+  }
+
+  .inline-countdown__title {
+    font-weight: 700;
+    font-size: {{ section.settings.font_size_timer_title }}px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: {{ section.settings.color_timer_title }};
+  }
+
+  .inline-countdown__subtitle {
+    font-size: 13px;
+    color: {{ section.settings.color_timer_subtitle }};
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .inline-countdown__boxes {
+    display: flex;
+    gap: 8px;
+  }
+
+  .countdown-card {
+    background-color: {{ section.settings.color_timer_box_bg }};
+    border: 1px solid {{ section.settings.color_timer_box_border }};
+    border-radius: 8px;
+    padding: 8px 12px;
+    min-width: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+
+  .countdown-card__num {
+    font-size: {{ section.settings.font_size_timer_digit }}px;
+    font-weight: 800;
+    color: {{ section.settings.color_timer_digits }};
+    line-height: 1.2;
+  }
+
+  .countdown-card__label {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: {{ section.settings.color_timer_labels }};
+    margin-top: 2px;
+  }
+
+  .inline-countdown__message {
+    font-weight: 600;
+    font-size: 14px;
+    color: {{ section.settings.color_timer_title }};
+    animation: inline-pulse 2s infinite;
+  }
+
+  @keyframes inline-pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+  }
+
+  /* Features Column */
+  .inline-countdown__features-col {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    gap: 24px;
+    padding: 0 20px;
+  }
+
+  .inline-countdown__feature-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 12px;
+  }
+
+  .inline-countdown__feature-icon {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .inline-countdown__feature-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .inline-countdown__feature-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+  }
+
+  .inline-countdown__feature-title {
+    font-weight: 700;
+    font-size: {{ section.settings.font_size_feature_title }}px;
+    color: #111111;
+    line-height: 1.2;
+  }
+
+  .inline-countdown__feature-desc-line {
+    font-size: {{ section.settings.font_size_feature_desc }}px;
+    color: #555555;
+    line-height: 1.2;
+  }
+
+  .inline-countdown__feature-desc-line--secondary {
+    opacity: 0.8;
+  }
+
+  .inline-countdown__feature-desc-line--bold {
+    font-weight: 700;
+    color: #111111;
+    font-size:18px;
+  }
+
+  /* Button Column */
+  .inline-countdown__btn-col {
+    flex-shrink: 0;
+  }
+
+  .inline-countdown__btn {
+    display: inline-block;
+    background-color: {{ section.settings.color_btn_bg }};
+    color: {{ section.settings.color_btn_text }};
+    padding: 12px 28px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .inline-countdown__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    filter: brightness(1.1);
+    color: #fff;
+  }
+
+  .inline-countdown__btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Responsive Design */
+  @media screen and (max-width: 1024px) {
+    #InlineCountdown-{{ section.id }} .inline-countdown-card {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 24px;
+      padding: calc({{ section.settings.card_padding_desktop }}px * 0.8) 25px;
+    }
+    
+    .inline-countdown__timer-col {
+      align-items: center;
+      width: 100%;
+    }
+
+    .inline-countdown__title-row {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .inline-countdown__features-col {
+      flex-direction: row;
+      justify-content: space-evenly;
+      border-top: 1px solid {{ section.settings.color_border }};
+      border-bottom: 1px solid {{ section.settings.color_border }};
+      padding: 20px 0;
+      width: 100%;
+      gap: 15px;
+    }
+
+    .inline-countdown__feature-item {
+      flex: 1;
+    }
+
+    .inline-countdown__btn-col {
+      display: flex;
+      justify-content: center;
+    }
+
+    .inline-countdown__btn {
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    #InlineCountdown-{{ section.id }} {
+      padding: 15px 10px;
+    }
+
+    #InlineCountdown-{{ section.id }} .inline-countdown-card {
+      padding: {{ section.settings.card_padding_mobile }}px 16px;
+      gap: 24px;
+    }
+
+    .inline-countdown__features-col {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      gap: 18px;
+      padding: 20px 0;
+      border-top: 1px solid {{ section.settings.color_border }};
+      border-bottom: 1px solid {{ section.settings.color_border }};
+    }
+
+    .inline-countdown__feature-item {
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+    }
+  }
+{% endstyle %}
+
+<div class="inline-countdown-section" id="InlineCountdown-{{ section.id }}">
+  <div class="inline-countdown-card">
+    
+    <!-- Left Column: Timer -->
+    <div class="inline-countdown__timer-col" 
+         data-start-datetime="{{ section.settings.start_datetime | escape }}"
+         data-end-datetime="{{ section.settings.end_datetime | escape }}"
+         data-timezone-offset="{{ section.settings.timezone_offset | escape }}"
+         data-hide-on-complete="{{ section.settings.hide_timer_on_complete }}"
+         data-coming-soon-msg="{{ section.settings.coming_soon_message | escape }}"
+         data-active-msg="{{ section.settings.active_message | escape }}"
+         data-complete-msg="{{ section.settings.timer_complete_message | escape }}"
+    >
+      <div class="inline-countdown__title-row">
+        <div class="inline-countdown__title-icon-wrapper">
+            <svg
+                class="inline-countdown__title-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+        </div>
+        <span class="inline-countdown__title">{{ section.settings.timer_title }}</span>
+      </div>
+      
+      <span class="inline-countdown__subtitle">{{ section.settings.timer_subtitle }}</span>
+      
+      <div class="inline-countdown__boxes" id="countdown-boxes-{{ section.id }}">
+        <div class="countdown-card">
+          <span class="countdown-card__num" id="inline-days-{{ section.id }}">00</span>
+          <span class="countdown-card__label">DAYS</span>
+        </div>
+        <div class="countdown-card">
+          <span class="countdown-card__num" id="inline-hours-{{ section.id }}">00</span>
+          <span class="countdown-card__label">HOURS</span>
+        </div>
+        <div class="countdown-card">
+          <span class="countdown-card__num" id="inline-minutes-{{ section.id }}">00</span>
+          <span class="countdown-card__label">MINS</span>
+        </div>
+        <div class="countdown-card">
+          <span class="countdown-card__num" id="inline-seconds-{{ section.id }}">00</span>
+          <span class="countdown-card__label">SECS</span>
+        </div>
+      </div>
+      
+      <div class="inline-countdown__message" style="display: none;" id="inline-message-{{ section.id }}">
+        {{ section.settings.timer_complete_message }}
+      </div>
+    </div>
+
+    <!-- Center Column: Features -->
+    <div class="inline-countdown__features-col">
+      {% for block in section.blocks %}
+        {% if block.type == 'feature' %}
+          <div class="inline-countdown__feature-item" {{ block.shopify_attributes }}>
+            {% if block.settings.icon != 'none' %}
+              <div class="inline-countdown__feature-icon" style="color: {{ block.settings.color_icon | default: section.settings.color_timer_title }};">
+                {% case block.settings.icon %}
+                  {% when 'gift' %}
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+                  {% when 'truck' %}
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                  {% when 'globe' %}
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                  {% when 'tag' %}
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                  {% when 'star' %}
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                  {% when 'heart' %}
+                    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                  {% when 'custom' %}
+                    {{ block.settings.custom_icon_svg }}
+                {% endcase %}
+              </div>
+            {% endif %}
+            
+            <div class="inline-countdown__feature-text" style="color: {{ block.settings.color_text | default: 'inherit' }};">
+              <span class="inline-countdown__feature-title">{{ block.settings.title }}</span>
+              {% if block.settings.description_line_1 != blank %}
+                <span class="inline-countdown__feature-desc-line">{{ block.settings.description_line_1 }}</span>
+              {% endif %}
+              {% if block.settings.description_line_2 != blank %}
+                <span class="inline-countdown__feature-desc-line inline-countdown__feature-desc-line--secondary">{{ block.settings.description_line_2 }}</span>
+              {% endif %}
+              {% if block.settings.description_line_3 != blank %}
+                <span class="inline-countdown__feature-desc-line inline-countdown__feature-desc-line--bold">{{ block.settings.description_line_3 }}</span>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <!-- Right Column: Button -->
+    <div class="inline-countdown__btn-col">
+      {% if section.settings.button_link != blank %}
+        <a href="{{ section.settings.button_link }}" 
+           class="inline-countdown__btn"
+           {% if section.settings.button_open_new_tab %}target="_blank" rel="noopener"{% endif %}>
+          {{ section.settings.button_text }}
+        </a>
+      {% else %}
+        <button class="inline-countdown__btn" disabled>
+          {{ section.settings.button_text }}
+        </button>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    class InlineCountdownTimer {
+      constructor(options) {
+        this.targetDate = options.targetDate;
+        this.startDate = options.startDate;
+        this.onTick = options.onTick;
+        this.onComplete = options.onComplete;
+        this.onComingSoon = options.onComingSoon;
+        this.timer = null;
+        this.start();
+      }
+      
+      start() {
+        this.update();
+        this.timer = setInterval(() => this.update(), 1000);
+      }
+      
+      update() {
+        const now = new Date().getTime();
+        const start = this.startDate ? this.startDate.getTime() : null;
+        const target = this.targetDate ? this.targetDate.getTime() : null;
+        
+        if (!target) return;
+
+        if (start && now < start) {
+          const diff = start - now;
+          if (typeof this.onComingSoon === 'function') {
+            this.onComingSoon(this.calculateTime(diff), diff);
+          }
+        } else if (now >= target) {
+          clearInterval(this.timer);
+          if (typeof this.onComplete === 'function') {
+            this.onComplete();
+          }
+        } else {
+          const diff = target - now;
+          if (typeof this.onTick === 'function') {
+            this.onTick(this.calculateTime(diff), diff);
+          }
+        }
+      }
+      
+      calculateTime(ms) {
+        const totalSecs = Math.floor(ms / 1000);
+        return {
+          days: Math.floor(totalSecs / 86400),
+          hours: Math.floor((totalSecs % 86400) / 3600),
+          minutes: Math.floor((totalSecs % 3600) / 60),
+          seconds: totalSecs % 60
+        };
+      }
+    }
+
+    function initInlineCountdown(section) {
+      if (section.dataset.initialized === 'true') return;
+      section.dataset.initialized = 'true';
+
+      const timerWrapper = section.querySelector('.inline-countdown__timer-col');
+      if (!timerWrapper) return;
+
+      const startStr = timerWrapper.dataset.startDatetime || '';
+      const endStr = timerWrapper.dataset.endDatetime || '';
+      const offset = timerWrapper.dataset.timezoneOffset || '';
+
+      const parseDateTime = (str) => {
+        if (!str) return null;
+        let normalized = str.trim().replace(' ', 'T');
+        if (normalized.length === 16) {
+          normalized += ':00';
+        }
+        if (offset && !normalized.includes('+') && !normalized.includes('-') && !normalized.endsWith('Z')) {
+          normalized += offset;
+        }
+        const date = new Date(normalized);
+        return isNaN(date.getTime()) ? null : date;
+      };
+
+      const startDate = parseDateTime(startStr);
+      const endDate = parseDateTime(endStr);
+
+      if (!endDate) {
+        console.warn('Inline Countdown Timer: Invalid end date-time setting.');
+        return;
+      }
+
+      const labelText = section.querySelector('.inline-countdown__subtitle');
+      const boxesContainer = section.querySelector('.inline-countdown__boxes');
+      const messageEl = section.querySelector('.inline-countdown__message');
+
+      const daysEl = section.querySelector('[id^="inline-days-"]');
+      const hoursEl = section.querySelector('[id^="inline-hours-"]');
+      const minutesEl = section.querySelector('[id^="inline-minutes-"]');
+      const secondsEl = section.querySelector('[id^="inline-seconds-"]');
+
+      const hideOnComplete = timerWrapper.dataset.hideOnComplete === 'true';
+      const comingSoonMsg = timerWrapper.dataset.comingSoonMsg;
+      const activeMsg = timerWrapper.dataset.activeMsg;
+      const completeMsg = timerWrapper.dataset.completeMsg;
+
+      function pad(num) {
+        return String(num).padStart(2, '0');
+      }
+
+      function render(time) {
+        if (daysEl) daysEl.textContent = pad(time.days);
+        if (hoursEl) hoursEl.textContent = pad(time.hours);
+        if (minutesEl) minutesEl.textContent = pad(time.minutes);
+        if (secondsEl) secondsEl.textContent = pad(time.seconds);
+      }
+
+      new InlineCountdownTimer({
+        startDate: startDate,
+        targetDate: endDate,
+        onComingSoon: (time) => {
+          if (labelText) labelText.textContent = comingSoonMsg || "Coming Soon";
+          if (boxesContainer) boxesContainer.style.display = 'flex';
+          if (messageEl) messageEl.style.display = 'none';
+          render(time);
+        },
+        onTick: (time) => {
+          if (labelText) labelText.textContent = activeMsg || "Offer Ends In";
+          if (boxesContainer) boxesContainer.style.display = 'flex';
+          if (messageEl) messageEl.style.display = 'none';
+          render(time);
+        },
+        onComplete: () => {
+          if (hideOnComplete) {
+            section.style.display = 'none';
+          } else {
+            if (labelText) labelText.textContent = "";
+            if (boxesContainer) boxesContainer.style.display = 'none';
+            if (messageEl) {
+              messageEl.style.display = 'block';
+              messageEl.textContent = completeMsg || "Offer Expired!";
+            }
+          }
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.inline-countdown-section').forEach(initInlineCountdown);
+    });
+
+    document.addEventListener('shopify:section:load', (event) => {
+      const section = event.target.querySelector('.inline-countdown-section');
+      if (section) {
+        initInlineCountdown(section);
+      }
+    });
+  })();
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Product Timer & Features",
+  "tag": "section",
+  "class": "inline-countdown-timer-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Page Visibility Filter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_product",
+      "label": "Show on Product Pages",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_collection",
+      "label": "Show on Collection Pages",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_cart",
+      "label": "Show on Cart Page",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_page",
+      "label": "Show on Pages",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_blog",
+      "label": "Show on Blog / Articles",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_on_search",
+      "label": "Show on Search Page",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Card Container Styling"
+    },
+    {
+      "type": "color",
+      "id": "color_bg",
+      "label": "Card Background Color",
+      "default": "#fffcf3"
+    },
+    {
+      "type": "color",
+      "id": "color_border",
+      "label": "Card Border Color",
+      "default": "#f7ecce"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Card Border Width (px)",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Card Border Radius (px)",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Timer Title & Subtitle"
+    },
+    {
+      "type": "text",
+      "id": "timer_title",
+      "label": "Timer Title",
+      "default": "LIMITED TIME OFFER"
+    },
+    {
+      "type": "color",
+      "id": "color_timer_title",
+      "label": "Timer Title Color",
+      "default": "#3c051a"
+    },
+    {
+      "type": "text",
+      "id": "timer_subtitle",
+      "label": "Timer Subtitle",
+      "default": "Offer Ends In"
+    },
+    {
+      "type": "color",
+      "id": "color_timer_subtitle",
+      "label": "Timer Subtitle Color",
+      "default": "#8c7b6c"
+    },
+    {
+      "type": "header",
+      "content": "Timer Boxes Styling"
+    },
+    {
+      "type": "color",
+      "id": "color_timer_box_bg",
+      "label": "Timer Box Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "color_timer_box_border",
+      "label": "Timer Box Border",
+      "default": "#ece3d5"
+    },
+    {
+      "type": "color",
+      "id": "color_timer_digits",
+      "label": "Timer Numbers Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "color_timer_labels",
+      "label": "Timer Labels Color (DAYS, HOURS, etc)",
+      "default": "#a39180"
+    },
+    {
+      "type": "header",
+      "content": "Timer Date Config"
+    },
+    {
+      "type": "text",
+      "id": "start_datetime",
+      "label": "Start Date & Time (Format: YYYY-MM-DD HH:MM)",
+      "default": "2026-07-29 09:00",
+      "info": "Leave blank to start countdown immediately."
+    },
+    {
+      "type": "text",
+      "id": "end_datetime",
+      "label": "End Date & Time (Format: YYYY-MM-DD HH:MM)",
+      "default": "2026-08-05 23:59"
+    },
+    {
+    "type": "text",
+    "id": "timezone_offset",
+    "label": "Timezone Offset",
+    "default": "+05:30",
+    "info": "Examples: +05:30 (India), +00:00 (UTC), -05:00 (EST)"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_timer_on_complete",
+      "label": "Hide Section On Complete",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "timer_complete_message",
+      "label": "Timer Complete Message",
+      "default": "Offer Expired!"
+    },
+    {
+      "type": "text",
+      "id": "coming_soon_message",
+      "label": "Coming Soon Message Label",
+      "default": "Coming Soon"
+    },
+    {
+      "type": "text",
+      "id": "active_message",
+      "label": "Timer Active Message Label",
+      "default": "Offer Ends In"
+    },
+    {
+      "type": "header",
+      "content": "Shop Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_open_new_tab",
+      "label": "Open link in new tab",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "color_btn_bg",
+      "label": "Button Background Color",
+      "default": "#5c0632"
+    },
+    {
+      "type": "color",
+      "id": "color_btn_text",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography & Card Sizing"
+    },
+    {
+      "type": "range",
+      "id": "font_size_timer_title",
+      "label": "Timer Title Font Size (px)",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "font_size_timer_digit",
+      "label": "Timer Number Font Size (px)",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "font_size_feature_title",
+      "label": "Feature Title Font Size (px)",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "default": 17
+    },
+    {
+      "type": "range",
+      "id": "font_size_feature_desc",
+      "label": "Feature Description Font Size (px)",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "card_padding_desktop",
+      "label": "Card Padding Desktop (px)",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "card_padding_mobile",
+      "label": "Card Padding Mobile (px)",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "default": 25
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature / Offer Item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {"value": "none", "label": "None"},
+            {"value": "gift", "label": "Gift"},
+            {"value": "truck", "label": "Truck (Shipping)"},
+            {"value": "globe", "label": "Globe (International)"},
+            {"value": "tag", "label": "Tag (Sale)"},
+            {"value": "star", "label": "Star"},
+            {"value": "heart", "label": "Heart"},
+            {"value": "custom", "label": "Custom SVG"}
+          ],
+          "default": "gift"
+        },
+        {
+          "type": "html",
+          "id": "custom_icon_svg",
+          "label": "Custom SVG Icon Code",
+          "info": "Paste custom SVG HTML code here if 'Custom SVG' is selected above."
+        },
+        {
+          "type": "color",
+          "id": "color_icon",
+          "label": "Icon Color Override (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading (e.g. 10% OFF)",
+          "default": "10% OFF"
+        },
+        {
+          "type": "text",
+          "id": "description_line_1",
+          "label": "Description Line 1",
+          "default": "First Order"
+        },
+        {
+          "type": "text",
+          "id": "description_line_2",
+          "label": "Description Line 2",
+          "default": "Maximum Discount"
+        },
+        {
+          "type": "text",
+          "id": "description_line_3",
+          "label": "Price / Highlighted Text (Bold)",
+          "default": "₹500",
+          "info": "E.g. ₹500, ₹3,000, Free, etc."
+        },
+        {
+          "type": "color",
+          "id": "color_text",
+          "label": "Text Color Override (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Timer & Features",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "gift",
+            "title": "10% OFF",
+            "description_line_1": "First Order",
+            "description_line_2": "Maximum Discount",
+            "description_line_3": "₹500"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "FREE Shipping",
+            "description_line_1": "Across India",
+            "description_line_2": "On Orders Above",
+            "description_line_3": "₹3,000"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "globe",
+            "title": "50% OFF",
+            "description_line_1": "International Shipping",
+            "description_line_2": "On Orders Above",
+            "description_line_3": "₹5,000"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
