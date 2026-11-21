@@ -59,10 +59,10 @@
       document.head.appendChild(s2);
     }
 
-    ['scroll', 'touchstart', 'mousemove', 'click'].forEach(function(evt) {
+    ['scroll', 'touchstart', 'mousemove', 'click', 'keydown'].forEach(function(evt) {
       window.addEventListener(evt, loadGtagScripts, { once: true, passive: true });
     });
-    setTimeout(loadGtagScripts, 7000);
+    setTimeout(loadGtagScripts, 9000);
   </script>
 
 <!-- Event snippet for Google Shopping App Purchase conversion page -->
