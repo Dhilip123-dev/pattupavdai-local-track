@@ -50,7 +50,7 @@
             	{% if settings.product_info_show_btn_fullscreen %}
               		<div data-js-gallery class="open_gallery"><i class="fa fa-expand"></i></div>
             	{% endif %}
-                <div data-fotorama data-allow-full-screen="native" style="width:1px;height:1px;">
+                <div data-fotorama data-allow-full-screen="true" style="width:1px;height:1px;">
                   {% for image in product.images %}                       
                     {%- assign image = image.src -%}
               		{%- if image -%}<img src="{{ image | img_url: '1920x' }}" style="width:auto; height:auto" alt=""/>{%- endif -%}                    

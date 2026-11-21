@@ -136,7 +136,7 @@
           </div> 
         {%endif%}
       {% endfor %}
-      <div data-fotorama data-allow-full-screen="native" style="width:1px;height:1px;overflow: hidden;">
+      <div data-fotorama data-allow-full-screen="true" style="width:1px;height:1px;overflow: hidden;">
         {% for media in product.media %}
           {% if  media.media_type == 'image' %}                   
             {%- assign image = media.src -%}
