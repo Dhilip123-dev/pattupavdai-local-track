@@ -544,29 +544,35 @@ td {
   line-height: 1;
 }
 .slick-dots li {
-  margin: 0 3px;
-  width: auto;
-  height: auto;
-  border-radius: 100%;
-  text-align: center;
+  margin: 0 3px !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 100% !important;
+  text-align: center !important;
 }
 .slick-dots li button {
-  width: 8px;
-  height: 8px;
-  border-radius: 100%;
-  opacity: 0.3;
+  width: 8px !important;
+  height: 8px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 100% !important;
+  opacity: 0.3 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
 }
 .slick-dots li.slick-active button {
-  opacity: 1;
-  width: 30px;
-  border-radius: 25px;
+  opacity: 1 !important;
+  width: 30px !important;
+  border-radius: 25px !important;
 }
 .slick-dots li button:before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  background: #730449;
-  border-radius: 100%;
+  content: "" !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: #730449 !important;
+  border-radius: 100% !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
   -webkit-transition: all 240ms linear 0s;
   -khtml-transition: all 240ms linear 0ms;
   -moz-transition: all 240ms linear 0s;
@@ -575,8 +581,8 @@ td {
   transition: all 240ms linear 0s;
 }
 .slick-dots li.slick-active button:before {
-  width: 30px;
-  border-radius: 8px;
+  width: 30px !important;
+  border-radius: 8px !important;
 }
 
 .cms-wrap-brand2 .slick-dots {
