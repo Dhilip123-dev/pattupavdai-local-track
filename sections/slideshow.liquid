@@ -59,64 +59,37 @@
                     {% if image != blank %}
                    <a class="image-slideshow" href="{% if url != blank %}{{url}}{% else %}#{% endif %}" target="{{open_link}}" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;" aria-label="link" {{ block.shopify_attributes }}>
                     {%- if forloop.first -%}
-                      <div class="w-full h-full sm:d-none">
-                      {{ image | image_url: width: 1500 | image_tag:
-                        loading: 'eager',
-                        fetchpriority: 'high',
-                        width: image.width,
-                        height: image.height,
-                        class: banner,
-                        sizes: sizes,
-                        widths: widths,
-                        alt: image.alt | escape
-                      }}
-                    </div>
-                      {% if block.settings.image_sl_mobile != blank %}
-                          {% assign image_mobile = block.settings.image_sl_mobile %}
-                       {% else %} 
-                          {% assign image_mobile = block.settings.image_sl %}
-                      {% endif %}
-                     <div class="w-full h-full md:hidden ">  
-                      {{ image_mobile | image_url: width: 1500 | image_tag:
-                        loading: 'eager',
-                        fetchpriority: 'high',
-                        width: image_mobile.width,
-                        height: image_mobile.height,
-                        class: banner,
-                        sizes: sizes,
-                        widths: widths,
-                        alt: image_mobile.alt | escape
-                      }} 
-                     </div>
-                       {% else %}
-                    <div class="w-full h-full sm:d-none">
-                      {{ image | image_url: width: 1500 | image_tag:
-                        loading: 'lazy',
-                        width: image.width,
-                        height: image.height,
-                        class: banner,
-                        sizes: sizes,
-                        widths: widths,
-                        alt: image.alt | escape
-                      }}
-                    </div>
-                      {% if block.settings.image_sl_mobile != blank %}
-                          {% assign image_mobile = block.settings.image_sl_mobile %}
-                       {% else %} 
-                          {% assign image_mobile = block.settings.image_sl %}
-                      {% endif %}
-                     <div class="w-full h-full md:hidden ">  
-                      {{ image_mobile | image_url: width: 1500 | image_tag:
-                        loading: 'lazy',
-                        width: image_mobile.width,
-                        height: image_mobile.height,
-                        class: banner,
-                        sizes: sizes,
-                        widths: widths,
-                        alt: image_mobile.alt | escape
-                      }} 
-                     </div>
-                      {% endif %}
+                      <picture class="w-full h-full block">
+                        {% if block.settings.image_sl_mobile != blank %}
+                          <source media="(max-width: 767px)" srcset="{{ block.settings.image_sl_mobile | image_url: width: 750 }} 750w, {{ block.settings.image_sl_mobile | image_url: width: 550 }} 550w, {{ block.settings.image_sl_mobile | image_url: width: 375 }} 375w" sizes="100vw">
+                        {% endif %}
+                        {{ image | image_url: width: 1500 | image_tag:
+                          loading: 'eager',
+                          fetchpriority: 'high',
+                          width: image.width,
+                          height: image.height,
+                          class: 'w-full h-full',
+                          sizes: '100vw',
+                          widths: '750, 1100, 1500, 1780, 2000',
+                          alt: image.alt | escape
+                        }}
+                      </picture>
+                    {%- else -%}
+                      <picture class="w-full h-full block">
+                        {% if block.settings.image_sl_mobile != blank %}
+                          <source media="(max-width: 767px)" srcset="{{ block.settings.image_sl_mobile | image_url: width: 750 }} 750w, {{ block.settings.image_sl_mobile | image_url: width: 550 }} 550w, {{ block.settings.image_sl_mobile | image_url: width: 375 }} 375w" sizes="100vw">
+                        {% endif %}
+                        {{ image | image_url: width: 1500 | image_tag:
+                          loading: 'lazy',
+                          width: image.width,
+                          height: image.height,
+                          class: 'w-full h-full',
+                          sizes: '100vw',
+                          widths: '750, 1100, 1500, 1780, 2000',
+                          alt: image.alt | escape
+                        }}
+                      </picture>
+                    {%- endif -%}
                    </a>
                      
                     {%else%}
