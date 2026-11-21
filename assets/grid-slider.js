@@ -80,7 +80,7 @@
 									_.sliderRender($el);
 								}
 							});
-						}, { rootMargin: '300px 0px' });
+						}, { rootMargin: '800px 0px' });
 						element.each(function(index, el){
                             var $el = $(el);
                             if($el.is(':visible')){
@@ -214,11 +214,16 @@
           });  
         }); 
     }else{
-        window.addEventListener("load", function() {
-            $(".grid-slider").not('grid-slider, .exception').each(function() {
+        var initDesktopSliders = function() {
+            $(".grid-slider").not('grid-slider, .exception, .slick-initialized').each(function() {
                 $(this).gridSlider();
             });
-        });
+        };
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            initDesktopSliders();
+        } else {
+            document.addEventListener("DOMContentLoaded", initDesktopSliders);
+        }
     }
     $(document).on('contentUpdated', function (event) {
 		$(".grid-slider").not('grid-slider, .exception, .grid-init, .slick-initialized').each(function() {

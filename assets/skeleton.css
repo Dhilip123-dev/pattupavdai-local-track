@@ -212,9 +212,9 @@ body.skeleton-page{overflow:visible;}
   }
 }
 :root {
-  --duration-extra-long: 0ms;
-  --animation-slide-in: none;
-  --animation-fade-in: none;
+  --duration-extra-long: 400ms;
+  --animation-slide-in: slideIn var(--duration-extra-long) cubic-bezier(0, 0, 0.3, 1) forwards;
+  --animation-fade-in: fadeIn var(--duration-extra-long) cubic-bezier(0, 0, 0.3, 1);
 }
 .js_carousel{
     display: flex;
@@ -232,7 +232,9 @@ body.skeleton-page{overflow:visible;}
   flex-shrink: 0;
 }
 .js_carousel .product-item.animate--slide-in {
-    animation: none !important;
+    animation: var(--animation-slide-in);
+    animation-delay: calc(var(--animation-order) * 40ms);
+    will-change: transform, opacity;
 }
 @media (min-width: 1921px){
 .js_carousel[data-visible="8"] .post-item,
