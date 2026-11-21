@@ -1,11 +1,12 @@
 
 {%- assign default_widths = '320, 375, 550, 750, 990, 1100, 1500' -%}
 {%- assign widths = widths | default: default_widths -%}
-{%- assign sizes = sizes | default: '100vw' -%}
+{%- assign default_sizes = '(min-width: 1200px) 550px, (min-width: 768px) 50vw, 100vw' -%}
+{%- assign sizes = sizes | default: default_sizes -%}
 
 {%- assign image_height = image.width | divided_by: image.aspect_ratio -%}
 
-{%- assign base_width = fallback_width | default: 1100 | plus: 0 -%}
+{%- assign base_width = fallback_width | default: 750 | plus: 0 -%}
 {%- if image.width and image.width < base_width -%}
   {%- assign base_width = image.width -%}
 {%- endif -%}

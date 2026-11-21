@@ -8,7 +8,7 @@
   <div class="cat_grid_item__content">
     <div class="cat_grid_item__link">
         {%- if image != blank -%}
-          {% render 'responsive-image', image: image, url:url, aspect_ratio:aspect_ratio,border:section.settings.border, image_class: 'w-full h-full' %}
+          {% render 'responsive-image', image: image, url:url, aspect_ratio:aspect_ratio,border:section.settings.border, image_class: 'w-full h-full', sizes: '(min-width: 1200px) 320px, (min-width: 768px) 33vw, 50vw' %}
           {% if section.settings.show_btn %}
             <span class="icon">
             <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>          
