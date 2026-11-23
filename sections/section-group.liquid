@@ -109,10 +109,8 @@
                           >  
                         {%- assign products = collections[block.settings.collection].products -%}
                         {%- if products  != blank -%}
-                          {%- capture url_cat -%}{%- if routes.root_url != '/' -%}{{routes.root_url}}{%- endif -%}{% if collection %}/collections/{{collection.handle}}{% endif %}{%- endcapture -%}
                           {%- for product in products limit: block.settings.limit -%}
-                          {% assign pr_hd = product.handle %}
-                            <div data-lazy-product-load class="product-item productLazyload lazyload" data-include="{{url_cat}}/products/{{pr_hd}}/?view=pr_lazy_load"></div>
+                            {% include 'card-product', product: product, index: forloop.index, show_secondary_image: true %}
                           {%- endfor -%}  
           				{%- else -%}
                           {%- for i in (1..block.settings.limit) -%}

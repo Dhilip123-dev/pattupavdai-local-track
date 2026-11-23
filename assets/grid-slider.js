@@ -67,20 +67,24 @@
 	            if(options.slidesToShow){
 					if ("IntersectionObserver" in window && useIntersectionObserver) {
 						var nthChild = options.slidesToShow + 1;
-						style += selector + ' .item:nth-child(n+ ' + nthChild + ')' + '{display: none;} ' + selector +  ' .item{float:left};';
+						style += selector + ':not(.slick-initialized) .item:nth-child(n+ ' + nthChild + ')' + '{display: none;} ' + selector +  ':not(.slick-initialized) .item{float:left};';
 						var gridSliderObserver = new IntersectionObserver(function(entries, observer) {
 							entries.forEach(function(entry) {
 								if (entry.isIntersecting) {
 									var el  = entry.target;
 									var $el = $(el);
 									observer.unobserve(el);
+									$el.one('init', function() {
+										$head.find('#' + styleId).remove();
+									});
+									_.sliderRender($el);
+									// Fallback removal if already initialized
 									setTimeout(function() {
 										$head.find('#' + styleId).remove();
-										_.sliderRender($el);
-									}, 0);
+									}, 100);
 								}
 							});
-						}, { rootMargin: '250px 0px' });
+						}, { rootMargin: '800px 0px' });
 						element.each(function(index, el){
                             var $el = $(el);
                             if($el.is(':visible')){

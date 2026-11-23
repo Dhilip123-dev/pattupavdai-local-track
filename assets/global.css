@@ -716,6 +716,40 @@ html {
 .laber_bg_lz.pr_lazy_img.lazyloaded:before {
   display: none;
 }
+
+/* Production-Grade Smooth Image Reveal & Fade-In Effect */
+img.lazyload {
+  opacity: 0 !important;
+  transition: opacity 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  will-change: opacity;
+}
+
+img.lazyloaded {
+  opacity: 1 !important;
+}
+
+/* Smooth zoom & hover transition on product cards */
+.product-item .image-card__img img,
+.alo-image img,
+.laber_banner img {
+  transition: opacity 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Critical layout images protection: never delay FCP, LCP, or logos */
+header img,
+.site-header img,
+.logo img,
+.site-header__logo-image img,
+div[data-wrapper-slidershow] img,
+div[data-wrapper-slidershow] .image-slideshow img,
+.type-benefit img,
+.alo-shipping img,
+footer img,
+.footer img {
+  opacity: 1 !important;
+  transition: none !important;
+}
 .pr_lazy_img {
   background-size: cover;
   background-position: center center;
