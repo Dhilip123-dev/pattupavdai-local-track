@@ -261,9 +261,18 @@ div[data-wrapper-slidershow] .content-item .image-slideshow img {
 }
 
 .slick-dots li button {
+  position: relative !important;
+}
+.slick-dots li button::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
   min-width: 24px !important;
   min-height: 24px !important;
-  padding: 6px !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .full-width,
