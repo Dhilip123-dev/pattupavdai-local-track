@@ -64,8 +64,10 @@
                           <source media="(max-width: 767px)" srcset="{{ block.settings.image_sl_mobile | image_url: width: 750 }} 750w, {{ block.settings.image_sl_mobile | image_url: width: 550 }} 550w, {{ block.settings.image_sl_mobile | image_url: width: 375 }} 375w" sizes="100vw">
                         {% endif %}
                         {{ image | image_url: width: 1500 | image_tag:
+                          preload: true,
                           loading: 'eager',
                           fetchpriority: 'high',
+                          decoding: 'sync',
                           width: image.width,
                           height: image.height,
                           class: 'w-full h-full',
