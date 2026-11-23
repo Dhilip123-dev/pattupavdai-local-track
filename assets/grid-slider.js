@@ -96,17 +96,23 @@
 									var el  = entry.target;
 									var $el = $(el);
 									observer.unobserve(el);
-									$el.one('init', function() {
-										$head.find('#' + styleId).remove();
-									});
-									_.sliderRender($el);
-									// Fallback removal if already initialized
-									setTimeout(function() {
-										$head.find('#' + styleId).remove();
-									}, 100);
+									var renderTask = function() {
+										$el.one('init', function() {
+											$head.find('#' + styleId).remove();
+										});
+										_.sliderRender($el);
+										setTimeout(function() {
+											$head.find('#' + styleId).remove();
+										}, 100);
+									};
+									if (window.requestIdleCallback) {
+										window.requestIdleCallback(renderTask, { timeout: 250 });
+									} else {
+										setTimeout(renderTask, 16);
+									}
 								}
 							});
-						}, { rootMargin: '800px 0px' });
+						}, { rootMargin: '200px 0px' });
 						element.each(function(index, el){
                             var $el = $(el);
                             if($el.is(':visible')){
@@ -209,7 +215,10 @@
 	            }
 	        }
 	        el.on('init', function(event, slick){
-	        	$('body').trigger('contentUpdated'); // support lazyload
+	        	if (window._aloContentUpdatedTimer) clearTimeout(window._aloContentUpdatedTimer);
+	        	window._aloContentUpdatedTimer = setTimeout(function() {
+	        		$('body').trigger('contentUpdated');
+	        	}, 120);
 	            var video = $(this).find('.external-video'),
                     slide     = slick.$slides.get(0);
 	            video.on('click', function(e) {
