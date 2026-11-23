@@ -207,14 +207,13 @@ div.main {
   }
 }
 .js_carousel {
-  display: flex;
-  overflow: hidden;
-  flex-wrap: nowrap;
+  display: flex !important;
+  overflow: hidden !important;
+  flex-wrap: nowrap !important;
 }
-.js_carousel.grid-init,
 .js_carousel.slick-initialized {
-  display: block;
-  overflow: hidden;
+  display: block !important;
+  overflow: hidden !important;
 }
 .full-width,
 .container.full-width {

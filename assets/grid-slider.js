@@ -11,7 +11,7 @@
         var _ = this,
         	defaults = {
 	            selector: '.grid-slider',
-	            IntersectionObserver: false
+	            IntersectionObserver: true
 	        },
             $element = $(element);
         _.settings = {};
@@ -74,9 +74,7 @@
 									var el  = entry.target;
 									var $el = $(el);
 									observer.unobserve(el);
-									$el.on('init', function(){
-										$head.find('#' + styleId).remove();
-									});
+									$head.find('#' + styleId).remove();
 									_.sliderRender($el);
 								}
 							});
