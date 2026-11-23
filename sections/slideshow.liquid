@@ -56,7 +56,7 @@
                     {% else %}
                     {% assign ratio = image.aspect_ratio |default:1.0 %}
                     {% if image != blank %}
-                   <a class="image-slideshow" href="{% if url != blank %}{{url}}{% else %}#{% endif %}" target="{{open_link}}" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;" aria-label="link" {{ block.shopify_attributes }}>
+                   <a class="image-slideshow" href="{% if url != blank %}{{url}}{% else %}#{% endif %}" target="{{open_link}}" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;" aria-label="{% if image.alt != blank %}{{ image.alt | escape }}{% else %}{{ shop.name }} banner{% endif %}" {{ block.shopify_attributes }}>
                     {%- if forloop.first -%}
                       <picture class="w-full h-full block">
                         {% if block.settings.image_sl_mobile != blank %}
@@ -72,7 +72,7 @@
                           class: 'w-full h-full',
                           sizes: '(max-width: 767px) 100vw, (max-width: 1440px) 100vw, 1400px',
                           widths: '375, 550, 750, 1100, 1400, 1600',
-                          alt: image.alt | escape
+                          alt: image.alt | default: shop.name | escape
                         }}
                       </picture>
                     {%- else -%}
@@ -87,7 +87,7 @@
                           class: 'w-full h-full',
                           sizes: '100vw',
                           widths: '750, 1100, 1500, 1780, 2000',
-                          alt: image.alt | escape
+                          alt: image.alt | default: shop.name | escape
                         }}
                       </picture>
                     {%- endif -%}

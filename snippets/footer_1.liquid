@@ -120,12 +120,12 @@
                     {% if block.settings.use_logo_footer %}
                       <div class="logo-footer">
                         {% if block.settings.logo_footer != blank %}
-                          <a href="{{ routes.root_url }}" class="site-header__logo-image">
+                          <a href="{{ routes.root_url }}" class="site-header__logo-image" aria-label="{{ shop.name }}">
                           {% capture image_size %}{{ block.settings.logo_max_width | escape }}{% endcapture %}
                           <img    
                           loading="lazy"
                           src="{{ block.settings.logo_footer | img_url: image_size, scale: 2 }}"                      
-                          alt="{{ logo_alt | escape }}"
+                          alt="{{ block.settings.logo_footer.alt | default: shop.name | escape }}"
                           style="max-width: {{ image_size }}px; width:auto; height:auto;">
                           </a>
                         {% else %}

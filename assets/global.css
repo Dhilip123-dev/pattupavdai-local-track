@@ -260,6 +260,12 @@ div[data-wrapper-slidershow] .content-item .image-slideshow img {
   object-fit: cover !important;
 }
 
+.slick-dots li button {
+  min-width: 24px !important;
+  min-height: 24px !important;
+  padding: 6px !important;
+}
+
 .full-width,
 .container.full-width {
   max-width: 100%;
