@@ -7898,3 +7898,18 @@ h6 {
   }
 
 }
+
+/* Smooth Carousel Entrance & Reveal Animation */
+.grid-slider {
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.grid-slider:not(.slick-initialized) {
+  opacity: 0.98;
+}
+.grid-slider.slick-initialized {
+  opacity: 1;
+}
+
+.js_carousel .product-item {
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
+}

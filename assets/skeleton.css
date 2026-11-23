@@ -236,7 +236,18 @@ body.skeleton-page{overflow:visible;}
     opacity: 1 !important;
     transform: none !important;
 }
-@media (min-width: 1921px){
+/* Prevent carousel sections from getting stuck invisible if WOW.js or scroll observer delays */
+.wow.animate--slide-in,
+section.wow,
+.cms_section.product_section,
+.type_section_group,
+.type_collection_carousel,
+.grid-slider,
+.js_carousel {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+@media (min-width: 1920px){
 .js_carousel[data-visible="8"] .post-item,
 .js_carousel[data-visible="8"] .product-item {
       width: calc(100% / 8);
@@ -270,7 +281,7 @@ body.skeleton-page{overflow:visible;}
       width: calc(100% / 1);
   }
 }
-@media (min-width: 1481px) and (max-width: 1920px){
+@media (min-width: 1480px) and (max-width: 1919px){
 .js_carousel[data-widescreen="8"] .post-item,
 .js_carousel[data-widescreen="8"] .product-item {
       width: calc(100% / 8);
@@ -305,7 +316,7 @@ body.skeleton-page{overflow:visible;}
   }
 }
 
-@media (min-width: 1200px) and (max-width: 1480px){
+@media (min-width: 1200px) and (max-width: 1479px){
 .js_carousel[data-desktop="8"] .post-item,
 .js_carousel[data-desktop="8"] .product-item {
       width: calc(100% / 8);
@@ -375,7 +386,7 @@ body.skeleton-page{overflow:visible;}
   }
 }
 
-@media (min-width: 768px) and (max-width: 992px){
+@media (min-width: 768px) and (max-width: 991px){
 .js_carousel[data-notebook="8"] .post-item,
 .js_carousel[data-notebook="8"] .product-item {
       width: calc(100% / 8);
@@ -410,7 +421,7 @@ body.skeleton-page{overflow:visible;}
   }
 }
 
-@media (min-width: 576px) and (max-width: 768px){
+@media (min-width: 576px) and (max-width: 767px){
 .js_carousel[data-tablet="8"] .post-item,
 .js_carousel[data-tablet="8"] .product-item {
       width: calc(100% / 8);
@@ -445,7 +456,7 @@ body.skeleton-page{overflow:visible;}
   }
 }
 
-@media (min-width: 480px) and (max-width: 576px){
+@media (min-width: 480px) and (max-width: 575px){
 .js_carousel[data-landscape="6"] .post-item,
 .js_carousel[data-landscape="6"] .product-item {
       width: calc(100% / 6);
@@ -472,7 +483,7 @@ body.skeleton-page{overflow:visible;}
   }
 }
 
-@media (min-width: 360px) and (max-width: 480px){
+@media (min-width: 360px) and (max-width: 479px){
 
 .js_carousel[data-portrait="6"] .post-item,
 .js_carousel[data-portrait="6"] .product-item {
@@ -499,7 +510,7 @@ body.skeleton-page{overflow:visible;}
       width: calc(100% / 1);
   }
 }
-@media (max-width: 360px){
+@media (max-width: 359px){
 
 .js_carousel[data-mobile="4"] .post-item,
 .js_carousel[data-mobile="4"] .product-item {

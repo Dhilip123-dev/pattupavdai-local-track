@@ -46,15 +46,14 @@
 	                element.attr('dir', 'rtl');
 	                element.data( 'rtl', true );
 	            }
-	            if(iClass === undefined){
-	            	var azInit = element.find('> .slick-list > .slick-track');
-	            	if(azInit.length){
-	            		azInit.children().addClass('alo-item');
-	            	}else{
-	            		element.children().addClass('alo-item');
-	            	}
-	                var iClass = '.alo-item';
+	            var azInit = element.find('> .slick-list > .slick-track');
+	            if(azInit.length){
+	            	azInit.children().addClass('alo-item');
+	            }else{
+	            	element.children().addClass('alo-item');
 	            }
+	            var iClass = '.alo-item';
+
 	            var options = element.data(),
 					rows 	= ((options || {}).rows === void 0) ? 1 : options.rows,
 					classes	= rows ? selector + ' '+ iClass : selector + ' .slick-track > '+ iClass,
@@ -64,10 +63,33 @@
               		style  += '.rtl ' + classes + '{float: right; min-height: 1px; min-width: 1px;}';
 	            if(style) $head.append('<style type="text/css" >'+style+'</style>');
 	            style 		= '';
+
+	            if (typeof options.responsive === 'string') {
+	                try {
+	                    options.responsive = JSON.parse(options.responsive);
+	                } catch(e) {
+	                    options.responsive = [];
+	                }
+	            }
+
+	            var winW = window.innerWidth || $(window).width();
+	            var activeCols = parseInt(options.visible) || parseInt(options.slidesToShow) || 5;
+	            if (options.responsive && Array.isArray(options.responsive)) {
+	                for (var r = 0; r < options.responsive.length; r++) {
+	                    var item = options.responsive[r];
+	                    if (item && item.breakpoint && item.settings && item.settings.slidesToShow) {
+	                        if (winW < item.breakpoint) {
+	                            activeCols = parseInt(item.settings.slidesToShow);
+	                        }
+	                    }
+	                }
+	            }
+	            options.slidesToShow = activeCols;
+
 	            if(options.slidesToShow){
 					if ("IntersectionObserver" in window && useIntersectionObserver) {
-						var nthChild = options.slidesToShow + 1;
-						style += selector + ':not(.slick-initialized) .item:nth-child(n+ ' + nthChild + ')' + '{display: none;} ' + selector +  ':not(.slick-initialized) .item{float:left};';
+						var nthChild = activeCols + 1;
+						style += selector + ':not(.slick-initialized) .alo-item:nth-child(n+ ' + nthChild + '), ' + selector + ':not(.slick-initialized) .product-item:nth-child(n+ ' + nthChild + '){display: none;} ' + selector +  ':not(.slick-initialized) .alo-item, ' + selector + ':not(.slick-initialized) .product-item{float:left};';
 						var gridSliderObserver = new IntersectionObserver(function(entries, observer) {
 							entries.forEach(function(entry) {
 								if (entry.isIntersecting) {
@@ -102,26 +124,44 @@
                 	if(options.appendArrows) element.data('append-Arrows', wrapper.find(options.appendArrows));
                   	if(options.appendDots) element.data('append-Dots', wrapper.find(options.appendDots));
 	            }
-	            var responsive 	= _.getPesponsive(options);
-				if(responsive == undefined) return;
-				var length = Object.keys(responsive).length;
-				$.each( responsive, function( key, value ) {
-					var col = 0, maxWith = 0, minWith = 0;
-					$.each( value , function(size, num) { minWith = parseInt(size) + 1; col = num;});
-					if(key+2<length){
-						$.each( responsive[key+1], function( size, num) { maxWith = size; col = num;});
-						style += ' @media (min-width: '+minWith+'px) and (max-width: '+maxWith+'px)';
-					} else { 
-						if(key+2 == length) return; // don't use key = length - 1;
-						$.each( responsive[key], function( size, num) { maxWith = size; col = num;});
-						style += ' @media (min-width: '+maxWith+'px)';
-					}
-					var clearRtl = (rows != 1) ? classes + ':nth-child('+col+'n+1){clear: left}' : ' ';
-                  	clearRtl 	+= (rows != 1) ? '.rtl ' + classes+':nth-child('+col+'n+1){clear: right}' : ' ';
-					style += ' {'+selector + '{margin: 0 -'+padding+'px}'+classes+'{padding: 0 '+padding+'px; box-sizing: border-box; width: calc(100% / ' + col + ')} '+clearRtl+'}';
-				});	
-	           	$head.append('<style type="text/css" id="' + styleId + '" >'+style+'</style>');
-	           	element.addClass('grid-init');	
+	            var bpMap = {};
+	            if (options.responsive && Array.isArray(options.responsive)) {
+	                options.responsive.forEach(function(item) {
+	                    if (item && item.breakpoint && item.settings && item.settings.slidesToShow) {
+	                        bpMap[item.breakpoint] = parseInt(item.settings.slidesToShow);
+	                    }
+	                });
+	            }
+
+	            var visibleCol = parseInt(options.slidesToShow) || 5;
+	            style += ' @media (min-width: 1920px) { ' + selector + '{margin: 0 -'+padding+'px} ' + classes + '{padding: 0 '+padding+'px; box-sizing: border-box; width: calc(100% / ' + visibleCol + '); float: left;} }';
+
+	            var bpRanges = [
+	                { min: 1480, max: 1919, bp: 1920 },
+	                { min: 1200, max: 1479, bp: 1480 },
+	                { min: 992,  max: 1199, bp: 1200 },
+	                { min: 768,  max: 991,  bp: 992  },
+	                { min: 576,  max: 767,  bp: 768  },
+	                { min: 480,  max: 575,  bp: 576  },
+	                { min: 360,  max: 479,  bp: 480  },
+	                { min: 0,    max: 359,  bp: 360  }
+	            ];
+
+	            bpRanges.forEach(function(range) {
+	                var col = bpMap[range.bp];
+	                if (!col) return;
+	                var mediaQuery = range.min === 0 
+	                    ? '@media (max-width: ' + range.max + 'px)' 
+	                    : '@media (min-width: ' + range.min + 'px) and (max-width: ' + range.max + 'px)';
+
+	                var clearRtl = (rows != 1) ? classes + ':nth-child('+col+'n+1){clear: left}' : ' ';
+	                clearRtl += (rows != 1) ? '.rtl ' + classes+':nth-child('+col+'n+1){clear: right}' : ' ';
+
+	                style += ' ' + mediaQuery + ' { ' + selector + '{margin: 0 -'+padding+'px} ' + classes + '{padding: 0 '+padding+'px; box-sizing: border-box; width: calc(100% / ' + col + '); float: left;} ' + clearRtl + ' }';
+	            });
+
+	            $head.append('<style type="text/css" id="' + styleId + '" >'+style+'</style>');
+	            element.addClass('grid-init');	
 	        });
 	        return this;
 	    };
@@ -149,6 +189,24 @@
 	            lazy.each(function(index) {
 	                $(this).data('lazy', $(this).data('src'));
 	            });
+	        }
+	        if (typeof options.responsive === 'string') {
+	            try {
+	                options.responsive = JSON.parse(options.responsive);
+	            } catch(e) {
+	                options.responsive = [];
+	            }
+	        }
+	        var winW = window.innerWidth || $(window).width();
+	        if (options.responsive && Array.isArray(options.responsive)) {
+	            for (var r = 0; r < options.responsive.length; r++) {
+	                var item = options.responsive[r];
+	                if (item && item.breakpoint && item.settings && item.settings.slidesToShow) {
+	                    if (winW < item.breakpoint) {
+	                        options.slidesToShow = parseInt(item.settings.slidesToShow);
+	                    }
+	                }
+	            }
 	        }
 	        el.on('init', function(event, slick){
 	        	$('body').trigger('contentUpdated'); // support lazyload

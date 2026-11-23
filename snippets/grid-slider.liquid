@@ -1,13 +1,12 @@
 {% capture configScreen %}
-    1921=>visible, 
     1920=>widescreen, 
     1480=>desktop, 
     1200=>laptop, 
     992=>notebook, 
     768=>tablet, 
     576=>landscape, 
-    481=>portrait, 
-    361=>mobile, 
+    480=>portrait, 
+    360=>mobile, 
     1=>mobile-small
 {% endcapture %}
 
@@ -54,17 +53,21 @@
 {% for cfg in configScreen %}
     {% assign size = cfg | split: '=>' | first | strip %}
     {% assign name = cfg  | split: '=>' | last | strip %}
+    {% assign num_col = settings[name] %}
+    {% if num_col == blank %}
+        {% assign num_col = settings['visible'] | default: settings['slides-To-Show'] | default: 1 %}
+    {% endif %}
     {% if settings.use-slider == true %}
             {% if forloop.last == true %}
-                {% capture responsive %}{{responsive}}{"breakpoint": 1, "settings": {"slidesToShow":  1 }}]{% endcapture %}
+                {% capture responsive %}{{responsive}}{"breakpoint": 1, "settings": {"slidesToShow": 1}}]{% endcapture %}
             {% else %}
-                {% capture responsive %}{{responsive}}{"breakpoint": {{size}}, "settings": {"slidesToShow":  {{settings[name]}} }},{% endcapture %}
+                {% capture responsive %}{{responsive}}{"breakpoint": {{size}}, "settings": {"slidesToShow": {{num_col}} }},{% endcapture %}
             {% endif %}
     {% else %}
         {% if forloop.last == true %}
-            {% capture responsive %}{{responsive}}{"1": "1" }]{% endcapture %}
+            {% capture responsive %}{{responsive}}{"1": "1"}]{% endcapture %}
         {% else %}
-            {% capture responsive %}{{responsive}}{"{{size}}":"{{settings[name]}}" },{% endcapture %}
+            {% capture responsive %}{{responsive}}{"{{size}}":"{{num_col}}"},{% endcapture %}
         {% endif %}
     {% endif %} 
 {% endfor %}
