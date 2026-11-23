@@ -163,6 +163,9 @@
 	            });
                 _.playVideo(slide);
 	        });
+	        if(options.autoplay && (!options.autoplaySpeed || parseInt(options.autoplaySpeed) < 5500)){
+	            options.autoplaySpeed = 6000;
+	        }
 	        var slider = el.slick(options);
 	        el.on('beforeChange', function(event, slick, currentSlide, nextSlide){
   	            var video     = $(this).find('.external-video'),

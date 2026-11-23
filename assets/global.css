@@ -259,6 +259,7 @@ div[data-wrapper-slidershow] .content-item .image-slideshow img {
   height: 100% !important;
   object-fit: cover !important;
 }
+
 .full-width,
 .container.full-width {
   max-width: 100%;
