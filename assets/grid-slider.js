@@ -74,11 +74,13 @@
 									var el  = entry.target;
 									var $el = $(el);
 									observer.unobserve(el);
-									$head.find('#' + styleId).remove();
-									_.sliderRender($el);
+									setTimeout(function() {
+										$head.find('#' + styleId).remove();
+										_.sliderRender($el);
+									}, 0);
 								}
 							});
-						}, { rootMargin: '800px 0px' });
+						}, { rootMargin: '250px 0px' });
 						element.each(function(index, el){
                             var $el = $(el);
                             if($el.is(':visible')){

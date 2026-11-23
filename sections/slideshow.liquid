@@ -1,5 +1,4 @@
 {%- if section.settings.hidden %}{% break %}{% endif -%}	
-{{ 'slideshow.css' | asset_url | stylesheet_tag }}
 {% assign sid = section.id %}
 {% assign style_dots = section.settings.style_dots %}
 {% assign position_dots = section.settings.position_dots %}
@@ -63,7 +62,7 @@
                         {% if block.settings.image_sl_mobile != blank %}
                           <source media="(max-width: 767px)" srcset="{{ block.settings.image_sl_mobile | image_url: width: 750 }} 750w, {{ block.settings.image_sl_mobile | image_url: width: 550 }} 550w, {{ block.settings.image_sl_mobile | image_url: width: 375 }} 375w" sizes="100vw">
                         {% endif %}
-                        {{ image | image_url: width: 1500 | image_tag:
+                        {{ image | image_url: width: 1400 | image_tag:
                           preload: true,
                           loading: 'eager',
                           fetchpriority: 'high',
@@ -71,8 +70,8 @@
                           width: image.width,
                           height: image.height,
                           class: 'w-full h-full',
-                          sizes: '100vw',
-                          widths: '750, 1100, 1500, 1780, 2000',
+                          sizes: '(max-width: 767px) 100vw, (max-width: 1440px) 100vw, 1400px',
+                          widths: '375, 550, 750, 1100, 1400, 1600',
                           alt: image.alt | escape
                         }}
                       </picture>

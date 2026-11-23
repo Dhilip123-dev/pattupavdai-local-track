@@ -284,13 +284,15 @@ div[data-wrapper-slidershow] .content-item.closed {
   opacity: 0;
 }
 div[data-wrapper-slidershow] .content-item .alo-video,
-div[data-wrapper-slidershow] .content-item .image-slideshow {
+div[data-wrapper-slidershow] .content-item .image-slideshow,
+div[data-wrapper-slidershow] .content-item .image-slideshow picture {
   max-width: 100%;
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
+  display: block;
 }
 div[data-wrapper-slidershow] .content-item .image-slideshow img{
   display: block;

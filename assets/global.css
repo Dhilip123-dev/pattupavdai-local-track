@@ -215,6 +215,50 @@ div.main {
   display: block !important;
   overflow: hidden !important;
 }
+/* Hero Slideshow Instant Display (Zero White Screen & Pre-Slick Layout) */
+div[data-wrapper-slidershow] .js_carousel {
+  display: flex !important;
+  overflow: hidden !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+}
+div[data-wrapper-slidershow] .js_carousel.slick-initialized {
+  display: block !important;
+  overflow: hidden !important;
+}
+div[data-wrapper-slidershow] .js_carousel:not(.slick-initialized) > .js_image_slide:first-child,
+div[data-wrapper-slidershow] .js_carousel:not(.slick-initialized) > .wrap_slide:first-child {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+div[data-wrapper-slidershow] .js_carousel:not(.slick-initialized) > .js_image_slide:not(:first-child),
+div[data-wrapper-slidershow] .js_carousel:not(.slick-initialized) > .wrap_slide:not(:first-child) {
+  display: none !important;
+}
+div[data-wrapper-slidershow] .content-item {
+  width: 100% !important;
+  position: relative !important;
+}
+div[data-wrapper-slidershow] .content-item .image-slideshow,
+div[data-wrapper-slidershow] .content-item .image-slideshow picture {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+div[data-wrapper-slidershow] .content-item .image-slideshow img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
 .full-width,
 .container.full-width {
   max-width: 100%;

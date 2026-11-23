@@ -99,6 +99,9 @@
 <noscript><link rel="stylesheet" href="{{ styleFooter | asset_url }}"></noscript>
 {{ 'global.css' | asset_url | stylesheet_tag }}
 {{ 'product.css' | asset_url | stylesheet_tag }}
+{% if template contains 'index' %}
+  {{ 'slideshow.css' | asset_url | stylesheet_tag }}
+{% endif %}
 
 {%- comment -%} Non-Critical CSS (Loaded asynchronously to prevent render-blocking) {%- endcomment -%}
 <link rel="preload" href="{{ 'style.line-awesome.min.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
