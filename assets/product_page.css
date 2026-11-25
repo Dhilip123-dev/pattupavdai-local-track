@@ -1841,9 +1841,17 @@
   .single_add_to_cart_button {
     min-width: 135px;
   }
-  .contact-us-open-popup,
+  .contact-us-open-popup {
+    padding: 15px;
+  }
   .size-chart-open-popup {
     padding: 15px;
+    max-height: 85vh;
+    overflow: visible;
+  }
+  .size-chart-open-popup .size-chart-inner-scroller {
+    max-height: calc(85vh - 30px);
+    overflow-y: auto;
   }
   .compare-color-image .color-img {
     width: 150px;

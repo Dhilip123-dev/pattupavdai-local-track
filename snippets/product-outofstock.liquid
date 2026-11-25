@@ -157,7 +157,9 @@
                 {% if show_size_guide and product.options contains 'Size' %}
                 <a data-page-open-popup href="#size-chart">{{ 'products.product.size_guide' | t}}</a>
                 <div id="size-chart" class="mfp-hide size-chart-open-popup">
-                  {{ pages[settings.product_info_size_guide_page_content].content }}
+                  <div class="size-chart-inner-scroller">
+                    {{ pages[settings.product_info_size_guide_page_content].content }}
+                  </div>
                 </div>                
                 {% endif %}  
                 {% if show_delivery %}

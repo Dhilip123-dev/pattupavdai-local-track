@@ -2486,12 +2486,14 @@
                                       data-effect="mfp-move-horizontal"
                                       class="mfp-hide mfp-with-anim size-chart-open-popup"
                                     >
-                                      {% assign image = block.settings.image_size %}
-                                      {% if image != blank %}
-                                        {% render 'responsive-image', image: image, image_class: 'w-full h-full' %}
-                                      {% else %}
-                                        {{ pages[size_guide_page].content }}
-                                      {% endif %}
+                                      <div class="size-chart-inner-scroller">
+                                        {% assign image = block.settings.image_size %}
+                                        {% if image != blank %}
+                                          {% render 'responsive-image', image: image, image_class: 'w-full h-full' %}
+                                        {% else %}
+                                          {{ pages[size_guide_page].content }}
+                                        {% endif %}
+                                      </div>
                                     </div>
                                   </div>
                                 {% endif %}

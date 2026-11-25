@@ -2761,12 +2761,19 @@ var AloReference = (function Alo($){
                       $popup.magnificPopup({ 
                         callbacks: {
                           beforeOpen: function() {
-                            this.st.mainClass = this.st.el.attr('data-effect');
+                            var effect = this.st.el ? this.st.el.attr('data-effect') : '';
+                            this.st.mainClass = (effect || 'mfp-move-horizontal') + ' mfp-modal-popup';
+                          },
+                          open: function() {
+                            if ($('#size-chart').length && !$('#size-chart > .size-chart-inner-scroller').length) {
+                              $('#size-chart').children().not('.mfp-close').wrapAll('<div class="size-chart-inner-scroller"></div>');
+                            }
                           }
                         },
                         type: 'inline',
                         removalDelay: 500,
-                        midClick: true 
+                        midClick: true,
+                        fixedContentPos: true
                       });
                   }
                   if (window.location.search.indexOf('open_size_chart=1') !== -1 || window.location.hash === '#size-chart' || window.location.hash === '#open-size-chart') {
@@ -2780,8 +2787,17 @@ var AloReference = (function Alo($){
                                       src: '#size-chart',
                                       type: 'inline'
                                   },
+                                  mainClass: 'mfp-move-horizontal mfp-modal-popup',
+                                  callbacks: {
+                                      open: function() {
+                                          if ($('#size-chart').length && !$('#size-chart > .size-chart-inner-scroller').length) {
+                                              $('#size-chart').children().not('.mfp-close').wrapAll('<div class="size-chart-inner-scroller"></div>');
+                                          }
+                                      }
+                                  },
                                   removalDelay: 500,
-                                  midClick: true
+                                  midClick: true,
+                                  fixedContentPos: true
                               });
                           }
                           if (window.history && window.history.replaceState) {
