@@ -19,7 +19,7 @@
 {%  assign build_variant = "all" %}
 {% assign show_title_variant = true %}
 {%- for i in (1..1) -%}
-    <div id="product-quick-edit-cart" class="js-quick-edit-cart" data-js-product >
+    <div id="product-quick-edit-cart" class="js-quick-edit-cart" data-js-product data-product-url="{{ product.url }}">
       <script class="data-json-product" type="application/json">{% render 'product-get-attributes', product:product, build_variant: 'json' %}</script>
       <h3>{{'products.product.option_for_you' | t}}</h3>
        <div class="container product-item">
@@ -58,7 +58,7 @@
               {%- else -%}
                     <div class="wrap_variant">
                       <span class="popup_variant"><i class="icon-tune"></i></span>
-                      {% include 'product-get-options' with options_type, options_type: 3, select_dropdown_position: 'top', options_show_title: true, trigger: 'footbar' %}
+                      {% include 'product-get-options' with options_type, options_type: 3, select_dropdown_position: 'top', options_show_title: true, trigger: 'footbar', is_quick_edit_cart: true %}
                     </div>  
                     <div class="select-sticky">
                     <select name="id" class="js_sticky_sl" data-select-sticky_atc> 

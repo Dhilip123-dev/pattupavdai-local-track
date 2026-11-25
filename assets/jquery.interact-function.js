@@ -2353,6 +2353,21 @@ var AloReference = (function Alo($){
                   })
               },
               editCart: function () {
+                  $(document).on('click', '#quick-editcart-modal .pp-size-chart, #quick-editcart-modal .size-chart, #product-quick-edit-cart .pp-size-chart, #product-quick-edit-cart .size-chart', function (event) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      var href = $(this).attr('href');
+                      if (!href || href === '#size-chart' || href === '#') {
+                          var $product = $(this).closest('#product-quick-edit-cart');
+                          var prodUrl = $product.data('product-url') || '';
+                          if (prodUrl) {
+                              href = prodUrl.split('#')[0].split('?')[0] + '?open_size_chart=1#size-chart';
+                          }
+                      }
+                      if (href && href !== '#' && href !== '#size-chart') {
+                          window.location.href = href;
+                      }
+                  });
                   $(document).on('click', '#js_cart_popup .edit-cart, .js_select_options', function (event) {
                       event.preventDefault();
                       var $this = $(this),
@@ -2740,18 +2755,40 @@ var AloReference = (function Alo($){
           },
           PagePopup: function() {
               var $popup = $('[data-page-open-popup]');
-              if(!$popup.length) return;
+              if(!$popup.length && !$('#size-chart').length) return;
                $script([cms_js.data('magnific')], function () {
-                  $popup.magnificPopup({ 
-                    callbacks: {
-                      beforeOpen: function() {
-                        this.st.mainClass = this.st.el.attr('data-effect');
-                      }
-                    },
-                    type: 'inline',
-                    removalDelay: 500,
-                    midClick: true 
-                  });
+                  if ($popup.length) {
+                      $popup.magnificPopup({ 
+                        callbacks: {
+                          beforeOpen: function() {
+                            this.st.mainClass = this.st.el.attr('data-effect');
+                          }
+                        },
+                        type: 'inline',
+                        removalDelay: 500,
+                        midClick: true 
+                      });
+                  }
+                  if (window.location.search.indexOf('open_size_chart=1') !== -1 || window.location.hash === '#size-chart' || window.location.hash === '#open-size-chart') {
+                      setTimeout(function() {
+                          var $target = $('a.size-chart[data-page-open-popup], a.pp-size-chart[data-page-open-popup], [data-page-open-popup][href="#size-chart"]').first();
+                          if ($target.length) {
+                              $target.trigger('click');
+                          } else if ($('#size-chart').length) {
+                              $.magnificPopup.open({
+                                  items: {
+                                      src: '#size-chart',
+                                      type: 'inline'
+                                  },
+                                  removalDelay: 500,
+                                  midClick: true
+                              });
+                          }
+                          if (window.history && window.history.replaceState) {
+                              window.history.replaceState(null, '', window.location.pathname);
+                          }
+                      }, 350);
+                  }
                });
           }
       }
