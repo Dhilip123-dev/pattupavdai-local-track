@@ -4,6 +4,7 @@
 {%- assign show_label_sale = settings.product_collection_show_label_sale -%}
 {%- assign show_label_new =  settings.product_collection_show_label_new -%}
 {%- assign show_label_hot =  settings.product_collection_show_label_hot -%}
+{%- assign show_label_out_stock = settings.product_collection_show_label_out_stock -%}
 {%- assign show_collection = settings.collection_info_show_collections -%}
 {%- assign show_title = settings.product_collection_show_title -%}
 {%- assign text_transform = settings.product_text_transform_title -%}
@@ -66,7 +67,11 @@
             	</a>
             </div>
          </div>
-          {%- if show_label_sale or show_label_new or show_label_hot -%}
+          {%- assign show_out_stock_badge = false -%}
+          {%- if show_label_out_stock and product.available == false -%}
+            {%- assign show_out_stock_badge = true -%}
+          {%- endif -%}
+          {%- if show_label_sale or show_label_new or show_label_hot or show_out_stock_badge -%}
               {%- assign label_present = true -%}
           {%- else -%}
               {%- assign label_present = false -%}

@@ -2816,6 +2816,9 @@ select.product-options__section {
 .product-image__overlay-top-left .label--sale {
   background-color: var(--color-label-sale);
 }
+.product-image__overlay-top-left .label--out-stock {
+  background-color: var(--color-label-out);
+}
 
 .product__text {
   display: flex;
