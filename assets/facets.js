@@ -68,10 +68,6 @@ class FacetFiltersForm extends HTMLElement {
       FacetFiltersForm.renderFilters(html, event);
       FacetFiltersForm.renderProductGridContainer(html);
       FacetFiltersForm.renderProductCount(html);
-
-      document
-        .querySelector('#ProductGridContainer.default-in-stock-pending')
-        ?.classList.remove('default-in-stock-pending');
     });
 }
 
@@ -81,10 +77,6 @@ class FacetFiltersForm extends HTMLElement {
   FacetFiltersForm.renderFilters(html, event);
   FacetFiltersForm.renderProductGridContainer(html);
   FacetFiltersForm.renderProductCount(html);
-
-  document
-    .querySelector('#ProductGridContainer.default-in-stock-pending')
-    ?.classList.remove('default-in-stock-pending');
 }
 
   static renderProductGridContainer(html) {
@@ -123,15 +115,6 @@ class FacetFiltersForm extends HTMLElement {
     FacetFiltersForm.renderAdditionalElements(parsedHTML);
 
     if (countsToRender) FacetFiltersForm.renderCounts(countsToRender, event.target.closest('.js-filter'));
-
-    if (window.location.pathname.startsWith('/collections/')) {
-      const currentSearchParams = new URLSearchParams(window.location.search);
-      if (!currentSearchParams.has('filter.v.availability')) {
-        const form = document.querySelector('#FacetFiltersForm') || document.querySelector('#FacetFiltersFormMobile');
-        const inStockInput = form?.querySelector('input[name="filter.v.availability"][value="1"]');
-        if (inStockInput) inStockInput.checked = true;
-      }
-    }
   }
 
   static renderActiveFacets(html) {
@@ -221,7 +204,7 @@ class FacetFiltersForm extends HTMLElement {
           forms.push(this.createSearchParams(form));
         }
       });
-      this.onSubmitForm(forms.join('&'), event)
+      this.onSubmitForm(forms.filter(Boolean).join('&'), event)
     }
   }
 
