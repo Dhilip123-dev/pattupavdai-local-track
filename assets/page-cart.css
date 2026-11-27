@@ -231,6 +231,7 @@ table td:first-child{
  .shoppingcart-content .cart-content .shopping-cart-content .each-item .product-name .wrap_item_cart .wrap_title_cart span {
 	 display: block;
 	 font-size: 14px;
+   font-weight:600;
 }
  .shoppingcart-content .cart-content .shopping-cart-content .each-item .product-name .wrap_item_cart .wrap_title_cart a {
   color: var(--color-name-product);
