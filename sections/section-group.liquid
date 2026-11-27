@@ -44,7 +44,7 @@
                     <div class="banner_static relative h-full" >
                         <div class="image_static images-card h-full">
                           {% if image != blank %} 
-                            {% render 'responsive-image', image: image, url:url, open_link:open_link, border: border, image_class: 'w-full h-full', sizes: '(min-width: 1200px) 550px, (min-width: 768px) 50vw, 100vw' %}
+                            {% render 'responsive-image', image: image, url:url, open_link:open_link, border: border, image_class: 'w-full h-full' %}
                           {% else %}
                             <div class="image-card__img h-full">
                                 {% capture current %}{% cycle 1, 2, 3 %}{% endcapture %}  
@@ -109,8 +109,10 @@
                           >  
                         {%- assign products = collections[block.settings.collection].products -%}
                         {%- if products  != blank -%}
+                          {%- capture url_cat -%}{%- if routes.root_url != '/' -%}{{routes.root_url}}{%- endif -%}{% if collection %}/collections/{{collection.handle}}{% endif %}{%- endcapture -%}
                           {%- for product in products limit: block.settings.limit -%}
-                            {% include 'card-product', product: product, index: forloop.index, show_secondary_image: true %}
+                          {% assign pr_hd = product.handle %}
+                            <div data-lazy-product-load class="product-item productLazyload lazyload" data-include="{{url_cat}}/products/{{pr_hd}}/?view=pr_lazy_load">{% include 'product-loading' %} </div>
                           {%- endfor -%}  
           				{%- else -%}
                           {%- for i in (1..block.settings.limit) -%}
@@ -139,7 +141,7 @@
       </div>
       {% if section.settings.use-all-product %}
           <div class="bn_button viewall text-center">
-            <a href="{{section.settings.btn_link}}" target="{{section.settings.open_link}}"
+            <a href="{{section.settings.btn_link}}?filter.v.availability=1"" target="{{section.settings.open_link}}"
                {{ section.shopify_attributes }} aria-label="link">{{'collections.general.view_all' |t}} <i class=" icon-chevron-right"></i>
             </a>
           </div>
